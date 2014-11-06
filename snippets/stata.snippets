@@ -1,3 +1,12 @@
+# NODA directory and globas
+snippet NODA_h
+	capture log close
+	global pwd `"C:/NODA/Stata"'
+	global dta "$pwd/data"
+	global do_dir "$pwd/program"
+	global log "$pwd/log"
+	global sj_files "$pwd/../tex/sj_files"
+	quietly log using "$log/02_Check_Judge&Section.log", replace 
 # \begin{}...\end{}
 snippet begin
 	\begin{${1:env}}
