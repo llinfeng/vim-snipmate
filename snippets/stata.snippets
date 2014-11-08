@@ -7,6 +7,55 @@ snippet NODA_h
 	global log "$pwd/log"
 	global sj_files "$pwd/../tex/sj_files"
 	quietly log using "$log/02_Check_Judge&Section.log", replace 
+	global Tex "$pwd/../tex"
+	
+# Regression over defendant traits
+snippet RegFree
+	eststo: qui areg ${1:LHS} \$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable}) 
+	foreach j of varlist \$$2 {
+		disp "\`j'"
+		eststo: qui  areg $1  \`j', absorb($3) cluster($4) 
+	}
+	esttab using \$Tex/${5:FileName}.tex, replace se
+	eststo clear
+
+snippet RegJudgeFull
+	eststo: qui xi: areg JudgeHarsh $Dfdn_traits i.case_class, absorb(allotment_date) cluster(${2:clustering})
+	foreach j of varlist $Dfdn_traits {
+		disp "\`j'"
+		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
+	}
+	esttab using \$Tex/${1:name}.tex, replace se
+	eststo clear
+	
+
+# create dummy
+snippet dummy 
+	gen ${1:DummyName} = 0
+	replace $1 = 1 if ${2:CategoricalVarible} == "${3:choice_of_1_group}"
+
+# use dataset
+snippet use
+	use \$dta/${1:filename}.dta, replace
+
+
+# save dataset
+snippet save 
+	save \$dta/${1:filename}.dta, replace
+
+	
+# save tempfile
+snippet tempfile
+	tempfile ${1:TempFileName}
+	save \`$1', replace
+
+# Preserve and restore
+snippet preserve
+	preserve
+	${1}
+	restore
+
+
 # \begin{}...\end{}
 snippet begin
 	\begin{${1:env}}
