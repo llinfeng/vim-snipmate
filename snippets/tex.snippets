@@ -1,8 +1,21 @@
+# verb
+snippet verb
+	\verb|${1:var_name}| 
 # \begin{}...\end{}
 snippet begin
 	\begin{${1:env}}
 		${2}
 	\end{$1}
+snippet sjlog
+	\begin{stlog}
+		\input{../../../tex/sj_files/${1:}}
+	\end{stlog}
+snippet reg
+	\paragraph{${1:table traits}} \$ \$ \newline
+	\begin{adjustbox}{width=\textwidth,totalheight=\textheight,keepaspectratio}
+		\input{../../../tex/${2:file_name}.tex}
+	\end{adjustbox}
+
 # Tabular
 snippet tab
 	\begin{${1:tabular}}{${2:c}}

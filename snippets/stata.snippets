@@ -3,12 +3,16 @@ snippet NODA_h
 	capture log close
 	global pwd \`"C:/NODA/Stata"'
 	global dta "$pwd/data"
+	global dta_raw "$pwd/data/Raw"
 	global do_dir "$pwd/program"
 	global log "$pwd/log"
 	global sj_files "$pwd/../tex/sj_files"
-	quietly log using "$log/02_Check_Judge&Section.log", replace 
 	global Tex "$pwd/../tex"
+	capture eststo clear
 	
+# Avoid the fucking typos!	
+snippet Dfdn
+	\$Dfdn_traits
 # Regression over defendant traits
 snippet RegFree
 	eststo: qui areg ${1:LHS} \$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable}) 
@@ -19,26 +23,77 @@ snippet RegFree
 	esttab using \$Tex/${5:FileName}.tex, replace se
 	eststo clear
 
-snippet RegJudgeFull
-	eststo: qui xi: areg JudgeHarsh $Dfdn_traits i.case_class, absorb(allotment_date) cluster(${2:clustering})
-	foreach j of varlist $Dfdn_traits {
+
+snippet RegfJudge
+	eststo: qui xi: areg JudgeHarsh $Dfdn_traits_full i.case_class, absorb(allotment_date) cluster(${2:judge_code})
+	foreach j of varlist $Dfdn_traits_full {
 		disp "\`j'"
 		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
 	}
-	esttab using \$Tex/${1:name}.tex, replace se
+	esttab using \$Tex/${1:name}_full.tex, replace se
 	eststo clear
 	
+snippet RegiJudge
+	eststo: qui xi: areg JudgeHarsh $Dfdn_traits_important i.case_class, absorb(allotment_date) cluster(${2:judge_code}) 
+	foreach j of varlist $Dfdn_traits_important {
+		disp "\`j'"
+		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
+	}
+	esttab using \$Tex/${1:name}_full.tex, replace se
+	eststo clear
+
+snippet RegiScreeningADA
+	eststo: qui xi: areg ScreenHarsh $Dfdn_traits_important, absorb(allotment_date) cluster(ada_code)
+	foreach j of varlist $Dfdn_traits_important {
+		disp "\`j'"
+		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster(ada_code)
+	}
+	esttab using \$Tex/${1:name}_important.tex, replace se
+	eststo clear
+
+snippet RegfScreeningADA
+	eststo: qui xi: areg ScreenHarsh $Dfdn_traits_full, absorb(allotment_date) cluster(ada_code)
+	foreach j of varlist $Dfdn_traits_full {
+		disp "\`j'"
+		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster(ada_code)
+	}
+	esttab using \$Tex/${1:name}_full.tex, replace se
+	eststo clear
 
 # create dummy
 snippet dummy 
 	gen ${1:DummyName} = 0
 	replace $1 = 1 if ${2:CategoricalVarible} == "${3:choice_of_1_group}"
 
+# time-date convert
+snippet gen_date
+	gen double ${1:new_numerical} = date(${2:old_var_string}, "${3:YMD}")
+
+# date_from_string
+snippet gen_string_date
+	rename ${1:old_string} $1_string
+	tostring $1_string, replace
+	gen double $1 = date($1_string, ${2:YMD})
+
 # use dataset
 snippet use
 	use \$dta/${1:filename}.dta, replace
 
+snippet use_raw
+	use \$dta_raw/${1:filename}-cln.dta, replace
 
+snippet using
+	using \$dta/${1:filename}.dta
+# do a .do file (files names to be coppied from TC, ysing "y").
+snippet do
+	do \$do_dir/$1
+# global declaration
+snippet global
+	global ${1:g_name} "${2:content}"
+
+# duplicates drop
+snippet dup_drop
+	duplicates drop ${1:id}, force
 # save dataset
 snippet save 
 	save \$dta/${1:filename}.dta, replace
@@ -55,6 +110,10 @@ snippet preserve
 	${1}
 	restore
 
+# sjlog: for displaying 
+snippet sjlog
+	sjlog using \$sj_files/${1:filename}, replace
+	sjlog close, replace
 
 # \begin{}...\end{}
 snippet begin
