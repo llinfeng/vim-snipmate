@@ -30,7 +30,7 @@ snippet RegfJudge
 		disp "\`j'"
 		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
 	}
-	esttab using \$Tex/${1:name}_full.tex, replace se
+	esttab using \$Tex/${1:name}_full.tex, replace se drop(_I*)
 	eststo clear
 	
 snippet RegiJudge
@@ -39,14 +39,14 @@ snippet RegiJudge
 		disp "\`j'"
 		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
 	}
-	esttab using \$Tex/${1:name}_full.tex, replace se
+	esttab using \$Tex/${1:name}_important.tex, replace se drop(_I*)
 	eststo clear
 
 snippet RegiScreeningADA
 	eststo: qui xi: areg ScreenHarsh $Dfdn_traits_important, absorb(allotment_date) cluster(ada_code)
 	foreach j of varlist $Dfdn_traits_important {
 		disp "\`j'"
-		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster(ada_code)
+		eststo: qui xi: areg ScreenHarsh \`j', absorb(allotment_date) cluster(ada_code)
 	}
 	esttab using \$Tex/${1:name}_important.tex, replace se
 	eststo clear
@@ -55,11 +55,22 @@ snippet RegfScreeningADA
 	eststo: qui xi: areg ScreenHarsh $Dfdn_traits_full, absorb(allotment_date) cluster(ada_code)
 	foreach j of varlist $Dfdn_traits_full {
 		disp "\`j'"
-		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster(ada_code)
+		eststo: qui xi: areg ScreenHarsh \`j', absorb(allotment_date) cluster(ada_code)
 	}
 	esttab using \$Tex/${1:name}_full.tex, replace se
 	eststo clear
 
+# texdoc 
+snippet texd
+	texdoc stlog
+	${1}
+	texdoc stlog close
+
+# graphing in texdoc
+snippet graph
+	graph export plot${1:1}.eps
+	tex \includegraphics{plot$1}
+	
 # create dummy
 snippet dummy 
 	gen ${1:DummyName} = 0
@@ -77,7 +88,7 @@ snippet gen_string_date
 
 # use dataset
 snippet use
-	use \$dta/${1:filename}.dta, replace
+	use \$dta/${1:filename}, replace
 
 snippet use_raw
 	use \$dta_raw/${1:filename}-cln.dta, replace
