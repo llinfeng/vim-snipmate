@@ -1,4 +1,4 @@
-# NODA directory and globas
+# Project Roots.
 snippet NODA_h
 	capture log close
 	global pwd \`"C:/NODA/Stata"'
@@ -8,13 +8,72 @@ snippet NODA_h
 	global log "$pwd/log"
 	global sj_files "$pwd/../tex/sj_files"
 	global Tex "$pwd/../tex"
+	global texdoc "$pwd/../tex/texdoc"
 	capture eststo clear
+	global simulation "$dta/simulation"
+	global simulation_safe "$dta/simulation_safe"
+	global test_dir "$dta/test"
 	
+snippet ArcGIS
+	clear all
+	capture eststo clear
+	capture log close
+	global root_dir \`"C:/arcgis"'
+	global pwd \`"$root_dir/Stata"'
+	global dta \`"$root_dir/Stata/Data"'
+	global excel "c:/ArcGIS/ArcGIS/ExcelSoruces"
+	global result "$pwd/../ArcGIS/Excel_Result"
+	global sj_files "$root_dir/Tex/sj_files"
+	global do_dir "$pwd/Program"
+	capture mkdir $sj_files
+	cd $sj_files
+	global OptimizationOutput "$pwd/../ArcGIS/Result"
+	global Sets "Newark OutOfNJ NJ_Rest"
+	cd $OptimizationOutput
+	* c:\arcgis\Log.wiki
+
+snippet Sam
+	capture log close
+	global pwd \`"C:/Sam/Stata"'
+	global dta "$pwd/data"
+	global dta_raw "$pwd/data/Raw"
+	global do_dir "$pwd/program"
+	global log "$pwd/log"
+	global sj_files "$pwd/../tex/sj_files"
+	global texdoc "$pwd/../tex/texdoc"
+	global Tex "$pwd/../tex"
+	capture eststo clear
+
+snippet Project
+	capture log close
+	global pwd \`"C:/${1:Project-Name}/Stata"'
+	global dta "$pwd/data"
+	global dta_raw "$pwd/data/Raw"
+	global do_dir "$pwd/program"
+	global log "$pwd/log"
+	global sj_files "$pwd/../tex/sj_files"
+	global Tex "$pwd/../tex"
+	capture eststo clear
+
 # Avoid the fucking typos!	
 snippet Dfdn
 	\$Dfdn_traits
+
+# For loops
+snippet forglobal
+	foreach ${1:element} in \$${2:set} {
+		${3:do something}
+	}
+
+# posting data to external files
+snippet post
+	postfile ${1:post_name} 
+	${2:column-title, the table in mind} 
+	using \$${3:dir}, replace
+	postclose $1
 # Regression over defendant traits
 snippet RegFree
+	do $do_dir/00_Dfdn_traits_global.do
 	eststo: qui areg ${1:LHS} \$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable}) 
 	foreach j of varlist \$$2 {
 		disp "\`j'"
@@ -34,6 +93,7 @@ snippet RegfJudge
 	eststo clear
 	
 snippet RegiJudge
+	do $do_dir/00_Dfdn_traits_global.do
 	eststo: qui xi: areg JudgeHarsh $Dfdn_traits_important i.case_class, absorb(allotment_date) cluster(${2:judge_code}) 
 	foreach j of varlist $Dfdn_traits_important {
 		disp "\`j'"
@@ -43,6 +103,7 @@ snippet RegiJudge
 	eststo clear
 
 snippet RegiScreeningADA
+	do $do_dir/00_Dfdn_traits_global.do
 	eststo: qui xi: areg ScreenHarsh $Dfdn_traits_important, absorb(allotment_date) cluster(ada_code)
 	foreach j of varlist $Dfdn_traits_important {
 		disp "\`j'"
@@ -52,6 +113,7 @@ snippet RegiScreeningADA
 	eststo clear
 
 snippet RegfScreeningADA
+	do $do_dir/00_Dfdn_traits_global.do
 	eststo: qui xi: areg ScreenHarsh $Dfdn_traits_full, absorb(allotment_date) cluster(ada_code)
 	foreach j of varlist $Dfdn_traits_full {
 		disp "\`j'"
@@ -60,8 +122,30 @@ snippet RegfScreeningADA
 	esttab using \$Tex/${1:name}_full.tex, replace se
 	eststo clear
 
+# Debugging
+snippet debug
+	set matsize 11000
+	set trace on
+	set traceexpand 	on
+	set tracesep 	on
+	set traceindent 	on
+	set tracenumber 	off
+	set tracehilite 	"" 
+
+snippet testing
+	set matsize 11000
+	set trace on
+	set traceexpand 	on
+	set tracesep 	on
+	set traceindent 	on
+	set tracenumber 	off
+	set tracehilite 	"" 
+	
+snippet cap
+	capture drop ${1:var_name}
+
 # texdoc 
-snippet texd
+snippet texlog
 	texdoc stlog
 	${1}
 	texdoc stlog close
@@ -70,7 +154,96 @@ snippet texd
 snippet graph
 	graph export plot${1:1}.eps
 	tex \includegraphics{plot$1}
+# texdoc init
+snippet texi
+	texdoc init ${1:file_name}, replace
+	${2}
+
+	texdoc close
+# texdoc full new file
+snippet texnew
+	texdoc init stata_report, replace
+	tex \documentclass{article}
+	tex \setcounter{tocdepth}{4}
+	tex \usepackage{setspace}
+	tex \usepackage{amssymb,amsmath,amsthm,mathrsfs,verbatim}
+	tex 
+	tex \usepackage[margin=.8cm]{geometry}
+	tex \singlespacing
+	tex \usepackage{multicol}
+	tex \usepackage{xcolor}
+	tex \usepackage{newverbs}
+	tex \usepackage{pdfpages} %merge pdf with: \includepdfmerge{heine-borel_proof.pdf,-}
+	tex 
+	tex \usepackage{graphicx, hyperref}
+	tex \setcounter{secnumdepth}{6}
+	tex 
+	tex \newverbcommand{\bverb}
+	tex {\begin{lrbox}{\verbbox}}
+	tex {\end{lrbox}\colorbox{yellow!30}{\box\verbbox}}
+	tex \newverbcommand{\yverb}
+	tex {\begin{lrbox}{\verbbox}}
+	tex {\end{lrbox}\colorbox{yellow!30}{\box\verbbox}}
+	tex \newverbcommand{\gverb}
+	tex {\begin{lrbox}{\verbbox}}
+	tex {\end{lrbox}\colorbox{green!30}{\box\verbbox}}
+	tex \newverbcommand{\rverb}
+	tex {\begin{lrbox}{\verbbox}}
+	tex {\end{lrbox}\colorbox{red!30}{\box\verbbox}}
+	tex 
+	tex \newverbcommand{\grayverb}
+	tex {\begin{lrbox}{\verbbox}}
+	tex {\end{lrbox}\colorbox{gray!30}{\box\verbbox}}
+	tex \usepackage{epstopdf}
+	tex \usepackage{longtable}
+	tex                                 %\usepackage{rotating}, then through environment: sidewaystable
+	tex                                 %\usepackage{pdflscape} % Followed by landscape
+	tex \usepackage{adjustbox}
+	tex 
+	tex \usepackage{mdframed}%needed for box like theorems.\newmdtheoremenv %In the box, the footnotes are more handy! ^.^
+	tex 
+	tex \newtheorem{theorem}{Theorem}[paragraph]
+	tex \newmdtheoremenv{remark}[theorem]{Remark}
+	tex \newmdtheoremenv{question}[theorem]{Question}
+	tex 
+	tex \usepackage{tikz}
+	tex \usetikzlibrary{shapes.geometric, arrows}
+	tex \tikzstyle{case} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+	tex \tikzstyle{section} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=orange!30] 
+	tex \tikzstyle{arrow} = [thick,->,>=stealth]
+	tex 
+	tex 
+	tex \let\origthebibliography\thebibliography
+	tex \let\origendthebibliography\endthebibliography
+	tex \newif\ifemptybibliography
+	tex \renewenvironment{thebibliography}[1]
+	tex {\if\relax\detokenize{#1}\relax\emptybibliographytrue\else\origthebibliography{#1}\fi}
+	tex {\ifemptybibliography\else\origendthebibliography\fi}
+	tex 
+	tex \usepackage{stata}
+	tex \usepackage{subcaption}
+	tex \usepackage{graphicx}
+	tex \usepackage{caption}
+	tex \usepackage{pdflscape}
+	tex 
+	tex \newcommand{\xia}{\underline{ }\underline{ }}
+	tex \usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % For displaying matlab code in latex.
+	tex \title{${1:Report-Name}}
+	tex \author{Linfeng Li}
+	tex \begin{document}
+	tex \maketitle
+	tex \tableofcontents
+	tex \section{${2:First-Section}}
+	tex \end{document}
+	texdoc close
 	
+	
+
+
+# texsave, for printing spreadsheets to tex tables.
+snippet texsave
+	texsave _all using "${1:table_name}", title("${2:caption/title}") footnote("${3:note that}") replace frag
+
 # create dummy
 snippet dummy 
 	gen ${1:DummyName} = 0
@@ -95,6 +268,31 @@ snippet use_raw
 
 snippet using
 	using \$dta/${1:filename}.dta
+
+#Labeling variables
+snippet label
+	label values ${1:var_name} ${2:label_name}
+
+snippet yes
+	label values ${1:var_name} yes_no
+
+# Posting tabulated results
+snippet tabtwoway
+	tab ${1:var1} ${2:var2}, matcell(${3:filename})
+		matrix rownames $3 = 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+		matrix colnames $3 = 
+	putexcel A1=matrix($3, names) using $3, replace
+
+snippet logouttab
+	* Defining the operator/specific name to to be called later.
+	preserve
+	logout, clear: tab ${2:rowname} ${1:colname}
+	logout, save(freq_$1) clear excel replace
+	restore
+	preserve
+	logout, clear: tab $2 $1, nofreq row 
+	logout, save(percentage_$1) clear excel replace
+	restore
 # do a .do file (files names to be coppied from TC, ysing "y").
 snippet do
 	do \$do_dir/$1
@@ -120,7 +318,6 @@ snippet preserve
 	preserve
 	${1}
 	restore
-
 # sjlog: for displaying 
 snippet sjlog
 	sjlog using \$sj_files/${1:filename}, replace
@@ -131,12 +328,6 @@ snippet begin
 	\begin{${1:env}}
 		${2}
 	\end{$1}
-# Tabular
-snippet tab
-	\begin{${1:tabular}}{${2:c}}
-	${3}
-	\end{$1}
-# Align(ed)
 snippet ali
 	\begin{align${1:ed}}
 		${2}
@@ -201,34 +392,19 @@ snippet cha
 	% chapter $2 (end)
 # Section
 snippet sec
-	\section{${1:section name}} % (fold)
-	\label{sec:${2:$1}}
-	${3}
-	% section $2 (end)
+	\section{${1:section name}} 
 # Sub Section
 snippet sub
-	\subsection{${1:subsection name}} % (fold)
-	\label{sub:${2:$1}}
-	${3}
-	% subsection $2 (end)
+	\subsection{${1:subsection name}}
 # Sub Sub Section
 snippet subs
-	\subsubsection{${1:subsubsection name}} % (fold)
-	\label{ssub:${2:$1}}
-	${3}
-	% subsubsection $2 (end)
+	\subsubsection{${1:subsubsection name}}
 # Paragraph
 snippet par
-	\paragraph{${1:paragraph name}} % (fold)
-	\label{par:${2:$1}}
-	${3}
-	% paragraph $2 (end)
+	\paragraph{${1:paragraph name}}
 # Sub Paragraph
 snippet subp
-	\subparagraph{${1:subparagraph name}} % (fold)
-	\label{subp:${2:$1}}
-	${3}
-	% subparagraph $2 (end)
+	\subparagraph{${1:subparagraph name}}
 snippet itd
 	\item[${1:description}] ${2:item}
 snippet figure
@@ -241,3 +417,136 @@ snippet section
 	${1:Section}~\ref{${2:sec:}}${3}
 snippet page
 	${1:page}~\pageref{${2}}${3}
+# More rich structures: 
+snippet tabular
+	\begin{table}[!htb]
+		\centering
+		\begin{tabular}{${1:Dimension of the table}}
+			${4:Conten of the table}
+		\end{tabular}
+		\caption{${3:table caption}}
+		\label{tab:${2:label}}
+	\end{table}
+
+# Shuffling: average measure.
+snippet simu_noisy
+	postfile simulation_${1:var_name} Iteration iqr_$1 using $dta/Simulation_iqr_$1, replace
+	forvalues i = 1/\`N_iteration' {
+			preserve
+			// The shuffling part begins.
+			by allotment_date: gen rand_univar = runiform()
+			sort allotment_date rand_univar
+			drop daily_id
+			by allotment_date: gen daily_id = _n
+			* Now, we assign "daily" id to the re-shuffled list.
+			* The list has been re-assigned by day, to a new daily_ID.
+
+
+			rename $1 $1_shuffled
+			keep allotment_date daily_id $1_shuffled
+			sort allotment_date daily_id
+
+			tempfile new_list
+			save \`new_list', replace
+
+			// Merge
+			use \`master_file', clear
+			sort allotment_date daily_id 
+			merge 1:1 allotment_date daily_id using \`new_list'
+
+			// The shuffling part ends.
+
+			display \`i'
+			tab $1_shuffled
+			egen criminal_iqr = iqr($1)
+			egen $1_iqr = iqr($1_shuffled)
+			gen difference  = $1 - $1_shuffled
+			codebook difference
+			restore
+	}
+	postclose simulation_$1
+
+snippet simu_formal
+	postfile simulation_${1:var_name} Iteration iqr_$1 using $dta/Simulation_iqr_$1, replace
+	forvalues i = 1/\`N_iteration' {
+			preserve
+			// The shuffling part begins.
+			by allotment_date: gen rand_univar = runiform()
+			sort allotment_date rand_univar
+			drop daily_id
+			by allotment_date: gen daily_id = _n
+			* Now, we assign "daily" id to the re-shuffled list.
+			* The list has been re-assigned by day, to a new daily_ID.
+
+
+			rename $1 $1_shuffled
+			keep allotment_date daily_id $1_shuffled
+			sort allotment_date daily_id
+
+			tempfile new_list
+			save \`new_list', replace
+
+			// Merge
+			use \`master_file', clear
+			sort allotment_date daily_id 
+			merge 1:1 allotment_date daily_id using \`new_list'
+
+			// The shuffling part ends.
+
+			display \`i'
+			bysort judge_code: egen $1_mean_by_judge = mean($1_shuffled)
+			egen $1_iqr = iqr($1_mean_by_judge)
+			post simulation_$1 (\`i') ($1_iqr)
+			restore
+	}
+	// Calculate the emperical iqr
+	bysort judge_code: egen $1_mean_by_judge = mean($1)
+	egen $1_iqr_emperical = iqr($1_mean_by_judge)
+	post simulation_$1 (10000) ($1_iqr_emperical)
+	sort allotment_date daily_id 
+
+	postclose simulation_$1
+
+snippet bug
+	// Calculate the emperical iqr
+	bysort judge_code: egen ${1:var_name}_mean_by_judge = mean($1)
+	egen $1_iqr_emperical = iqr($1_mean_by_judge)
+	post simulation_$1 (10000) ($1_iqr_emperical)
+
+# Importing stuff
+snippet importexcel 
+	import excel using ${1:filename}, first clear
+snippet iexcel 
+	import excel using ${1:filename}, first clear
+
+snippet importcsv
+	import delimited using ${1:filename}, delimit(",") clear
+
+# Export excel
+snippet exportexcel
+	export excel using ${1:filename}, first(var) replace
+
+# Temp section
+snippet facility
+	list B_id CompanyNam Address if  FacilityTy== 3
+
+snippet collapse
+	preserve
+	collapse (sum) ${1:var}, by(state) nogen
+	tempfile $1
+	save \`$1', replace
+	restore
+
+# Initializing additional packages:
+snippet geocode
+	* ssc install geocode3
+	* ssc install insheetjson
+	* ssc install libjson
+	gen state = "NJ"
+	egen full_address = concat(city state), punct(" ")
+	gen str100 address = subinstr(full_address," ","+",.)
+	compress
+	geocode3, address(addr) fulladdress quality zip state number street ad1 ad2 ad3 sub 
+	rename g_lat Latitude
+	rename g_lon Longitude
+	

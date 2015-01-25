@@ -1,12 +1,39 @@
-# verb
-snippet verb
+# New
+snippet new
+	\newpage
+# Manipulating tables
+snippet caption
+	\\caption{${1:}}<++>
+# use dataset
+snippet use
+	use \$dta/${1:filename}, replace
+# verb.; v.
+snippet ve
 	\verb|${1:var_name}| 
+snippet verbatim
+	\begin{verbatim} 
+	$1
+	\end{verbatim}
+snippet underline
+	\underline{${1:content}}
 # \begin{}...\end{}
 snippet begin
 	\begin{${1:env}}
 		${2}
 	\end{$1}
 snippet sjlog
+	\begin{stlog}
+		\input{sj_files/${1:}}
+	\end{stlog}
+snippet sjnoda
+	\begin{stlog}
+		\input{../../../tex/sj_files/${1:}}
+	\end{stlog}
+snippet stlog
+	\begin{stlog}
+		\input{../../../tex/sj_files/${1:}}
+	\end{stlog}
+snippet slog
 	\begin{stlog}
 		\input{../../../tex/sj_files/${1:}}
 	\end{stlog}
@@ -16,6 +43,43 @@ snippet reg
 		\input{../../../tex/<++>.tex}
 	\end{adjustbox}
 
+
+# Importing graphics
+snippet igraph
+	\includegraphics{<++>}
+snippet graphwide
+	\begin{center}
+		\includegraphics[width=\textwidth]{<++>}
+	\end{center}
+snippet graph
+	\begin{center}
+		\includegraphics{<++>}
+	\end{center}
+snippet graphscale
+	\begin{center}
+		\includegraphics[scale=${1:scalar}]{<++>}
+	\end{center}
+
+# Handling graphics
+snippet adjust
+	\begin{adjustbox}{totalheight=\textheight,keepaspectratio}
+	$1
+	\end{adjustbox}
+
+# The stata part
+snippet texlog
+	texdoc stlog
+	${1}
+	texdoc stlog close
+# Formatting
+snippet mbox
+	\mbox{}
+
+# tikz
+snippet dist
+	node distance=${1:}cm, 
+snippet width
+	text width = ${1:}cm,
 # Tabular
 snippet tab
 	\begin{${1:tabular}}{${2:c}}
@@ -126,3 +190,21 @@ snippet section
 	${1:Section}~\ref{${2:sec:}}${3}
 snippet page
 	${1:page}~\pageref{${2}}${3}
+# More rich structures: 
+snippet tabular
+	\begin{table}[!htb]
+		\centering
+		\begin{tabular}{${1:Dimension of the table}}
+			${4:Conten of the table}
+		\end{tabular}
+		\caption{${3:table caption}}
+		\label{tab:${2:label}}
+	\end{table}
+
+
+# Preamble stuff: 
+snippet pagenumber
+	\usepackage{fancyhdr}
+	\pagestyle{fancy}
+	\cfoot{\thepage}
+
