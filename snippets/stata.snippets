@@ -44,6 +44,30 @@ snippet Sam
 	global Tex "$pwd/../tex"
 	capture eststo clear
 
+snippet NJSJT
+	clear all
+	capture eststo clear
+	capture log close
+	global root_dir \`"C:/NY_SJT"'
+	global dta \`"$root_dir/Stata/Data"'
+	global sj_files "$root_dir/Tex/sj_files"
+	global do_dir "$pwd/Program"
+	capture mkdir $sj_files
+	cd $sj_files
+	* c:\arcgis\Log.wiki
+
+snippet Margo
+	clear all
+	capture eststo clear
+	capture log close
+	global root_dir \`"C:/Margo"'
+	global dta \`"$root_dir/Stata/Data"'
+	global sj_files "$root_dir/Tex/sj_files"
+	global do_dir "$pwd/Program"
+	capture mkdir $sj_files
+	capture mkdir $dta
+
+
 snippet Project
 	capture log close
 	global pwd \`"C:/${1:Project-Name}/Stata"'
@@ -374,10 +398,8 @@ snippet cas
 		${3}
 	\end{cases}
 # Split
-snippet spl
-	\begin{split}
-		${1}
-	\end{split}
+snippet s
+	split ${1:var_name}, p("${2:parsing}") g($1)
 # Part
 snippet part
 	\part{${1:part name}} % (fold)
@@ -549,4 +571,22 @@ snippet geocode
 	geocode3, address(addr) fulladdress quality zip state number street ad1 ad2 ad3 sub 
 	rename g_lat Latitude
 	rename g_lon Longitude
-	
+
+# Playing lazy	
+snippet d
+	#delimit ;
+snippet t
+	tab ${1:varaible}, missing 
+	tab year $1, missing nolabel
+	tab year $1, missing nolabel
+snippet lb
+	labelbook ${1:}
+# Labeling
+snippet lv
+	label variable ${1:varname} "${2:variable label}"
+snippet ls
+	label values ${1:variable's} ${2:label names}
+snippet	ld
+	label define ${1:value label name} ${2:num} "${3:LabelContent}", modify
+snippet ldir
+	label dir

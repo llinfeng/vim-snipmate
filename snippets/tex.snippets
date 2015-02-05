@@ -45,6 +45,10 @@ snippet reg
 
 
 # Importing graphics
+snippet g
+	\begin{center}
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{<++>}
+	\end{center}
 snippet igraph
 	\includegraphics{<++>}
 snippet graphwide
@@ -183,13 +187,15 @@ snippet itd
 snippet figure
 	${1:Figure}~\ref{${2:fig:}}${3}
 snippet table
-	${1:Table}~\ref{${2:tab:}}${3}
-snippet listing
-	${1:Listing}~\ref{${2:list}}${3}
-snippet section
-	${1:Section}~\ref{${2:sec:}}${3}
-snippet page
-	${1:page}~\pageref{${2}}${3}
+	\begin{table}[!htb]
+		\centering
+		\begin{tabular}{<+dimensions+>}
+			<++>
+		\end{tabular}
+		\caption{<+Caption text+>}
+		\label{tab:<+label+>}
+	\end{table}<++>
+
 # More rich structures: 
 snippet tabular
 	\begin{table}[!htb]
@@ -207,4 +213,13 @@ snippet pagenumber
 	\usepackage{fancyhdr}
 	\pagestyle{fancy}
 	\cfoot{\thepage}
+
+# Mapps and url: 
+snippet u
+	\url{${1}}
+
+# Newpage with newline
+snippet n
+	\newpage
+
 
