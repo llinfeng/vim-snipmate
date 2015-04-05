@@ -45,6 +45,8 @@ snippet reg
 
 
 # Importing graphics
+snippet G
+	\includegraphics[width=\textwidth,keepaspectratio]{<++>}
 snippet g
 	\begin{center}
 		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{<++>}
@@ -62,6 +64,10 @@ snippet graph
 snippet graphscale
 	\begin{center}
 		\includegraphics[scale=${1:scalar}]{<++>}
+	\end{center}
+snippet s
+	\begin{center}
+		\includegraphics[scale=0.65]{<++>}
 	\end{center}
 
 # Handling graphics
@@ -221,5 +227,23 @@ snippet u
 # Newpage with newline
 snippet n
 	\newpage
-
+# TEMP
+snippet z
+	\subsubsection{JJ's comment}
+	$1
+	\subsubsection{TODO}
+snippet zz
+	\paragraph{JJ's comment}
+	$1
+	\paragraph{TODO}
+snippet multi
+	\multicolumn{${1:num_of_col}}{c}{${2:contents}}
+snippet line
+	\noindent\rule{\textwidth}{1pt} % I am a line!
+snippet a
+	\;\;\;\;
+# bibliography
+snippet bib
+	\bibliographystyle{plain}
+	\bibliography{${1:bib_file}}
 

@@ -13,7 +13,7 @@ snippet NODA_h
 	global simulation "$dta/simulation"
 	global simulation_safe "$dta/simulation_safe"
 	global test_dir "$dta/test"
-	
+
 snippet ArcGIS
 	clear all
 	capture eststo clear
@@ -30,43 +30,53 @@ snippet ArcGIS
 	global OptimizationOutput "$pwd/../ArcGIS/Result"
 	global Sets "Newark OutOfNJ NJ_Rest"
 	cd $OptimizationOutput
-	* c:\arcgis\Log.wiki
+	* c:/arcgis/Log.wiki
 
 snippet Sam
-	capture log close
-	global pwd \`"C:/Sam/Stata"'
-	global dta "$pwd/data"
-	global dta_raw "$pwd/data/Raw"
-	global do_dir "$pwd/program"
-	global log "$pwd/log"
-	global sj_files "$pwd/../tex/sj_files"
-	global texdoc "$pwd/../tex/texdoc"
-	global Tex "$pwd/../tex"
+	clear all
 	capture eststo clear
+	capture log close
+	global Root "C:/Sam"
+	global dta "$Root/Stata/Data"
+	global sj_files "$Root/Tex/sj_files"
+	global do_dir "$Root/Stata/Program"
+	global origin "$Root/OriginalData"
+	global excel "$Root/Excel"
 
-snippet NJSJT
+snippet Sonja
+	clear all
+	capture eststo clear
+	capture log close
+	global root_dir \`"C:/Sonja"'
+	global pwd \`"$root_dir/Stata"'
+	global dta \`"$root_dir/Stata/Data"'
+	global sj_files "$root_dir/Tex/sj_files"
+	global do_dir "$pwd/Program"
+	global origin "$root_dir/OriginalData"
+	global log "$root_dir/log"
+
+snippet NYSJT
 	clear all
 	capture eststo clear
 	capture log close
 	global root_dir \`"C:/NY_SJT"'
 	global dta \`"$root_dir/Stata/Data"'
 	global sj_files "$root_dir/Tex/sj_files"
-	global do_dir "$pwd/Program"
+	global do_dir "$root_dir/Stata/Program"
+	global excel "$root_dir/excel"
 	capture mkdir $sj_files
 	cd $sj_files
-	* c:\arcgis\Log.wiki
 
 snippet Margo
 	clear all
 	capture eststo clear
 	capture log close
-	global root_dir \`"C:/Margo"'
+	global root_dir \`"C:/Margo/AO_data"'
 	global dta \`"$root_dir/Stata/Data"'
+	global origin "$root_dir/OriginalData"
 	global sj_files "$root_dir/Tex/sj_files"
-	global do_dir "$pwd/Program"
-	capture mkdir $sj_files
-	capture mkdir $dta
-
+	global do_dir "$root_dir/Stata/Program"
+	global log "$root_dir/log"
 
 snippet Project
 	capture log close
@@ -79,13 +89,27 @@ snippet Project
 	global Tex "$pwd/../tex"
 	capture eststo clear
 
+snippet mkdir
+	global Root "${1:Root_Directory}"
+	mkdir $Root/Stata
+	mkdir $Root/Tex
+	global dta "$Root/Stata/Data"
+	global sj_files "$Root/Tex/sj_files"
+	global do_dir "$Root/Stata/Program"
+	global origin "$Root/OriginalData"
+	mkdir $dta
+	mkdir $sj_files
+	mkdir $do_dir
+	mkdir $Root/Reference
+	mkdir $origin
+
 # Avoid the fucking typos!	
 snippet Dfdn
-	\$Dfdn_traits
+	/$Dfdn_traits
 
 # For loops
 snippet forglobal
-	foreach ${1:element} in \$${2:set} {
+	foreach ${1:element} in /$${2:set} {
 		${3:do something}
 	}
 
@@ -93,17 +117,17 @@ snippet forglobal
 snippet post
 	postfile ${1:post_name} 
 	${2:column-title, the table in mind} 
-	using \$${3:dir}, replace
+	using /$${3:dir}, replace
 	postclose $1
 # Regression over defendant traits
 snippet RegFree
 	do $do_dir/00_Dfdn_traits_global.do
-	eststo: qui areg ${1:LHS} \$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable}) 
-	foreach j of varlist \$$2 {
+	eststo: qui areg ${1:LHS} /$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable}) 
+	foreach j of varlist /$$2 {
 		disp "\`j'"
 		eststo: qui  areg $1  \`j', absorb($3) cluster($4) 
 	}
-	esttab using \$Tex/${5:FileName}.tex, replace se
+	esttab using /$Tex/${5:FileName}.tex, replace se
 	eststo clear
 
 
@@ -113,7 +137,7 @@ snippet RegfJudge
 		disp "\`j'"
 		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
 	}
-	esttab using \$Tex/${1:name}_full.tex, replace se drop(_I*)
+	esttab using /$Tex/${1:name}_full.tex, replace se drop(_I*)
 	eststo clear
 	
 snippet RegiJudge
@@ -123,7 +147,7 @@ snippet RegiJudge
 		disp "\`j'"
 		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
 	}
-	esttab using \$Tex/${1:name}_important.tex, replace se drop(_I*)
+	esttab using /$Tex/${1:name}_important.tex, replace se drop(_I*)
 	eststo clear
 
 snippet RegiScreeningADA
@@ -133,7 +157,7 @@ snippet RegiScreeningADA
 		disp "\`j'"
 		eststo: qui xi: areg ScreenHarsh \`j', absorb(allotment_date) cluster(ada_code)
 	}
-	esttab using \$Tex/${1:name}_important.tex, replace se
+	esttab using /$Tex/${1:name}_important.tex, replace se
 	eststo clear
 
 snippet RegfScreeningADA
@@ -143,7 +167,7 @@ snippet RegfScreeningADA
 		disp "\`j'"
 		eststo: qui xi: areg ScreenHarsh \`j', absorb(allotment_date) cluster(ada_code)
 	}
-	esttab using \$Tex/${1:name}_full.tex, replace se
+	esttab using /$Tex/${1:name}_full.tex, replace se
 	eststo clear
 
 # Debugging
@@ -177,7 +201,7 @@ snippet texlog
 # graphing in texdoc
 snippet graph
 	graph export plot${1:1}.eps
-	tex \includegraphics{plot$1}
+	tex /includegraphics{plot$1}
 # texdoc init
 snippet texi
 	texdoc init ${1:file_name}, replace
@@ -187,78 +211,78 @@ snippet texi
 # texdoc full new file
 snippet texnew
 	texdoc init stata_report, replace
-	tex \documentclass{article}
-	tex \setcounter{tocdepth}{4}
-	tex \usepackage{setspace}
-	tex \usepackage{amssymb,amsmath,amsthm,mathrsfs,verbatim}
+	tex /documentclass{article}
+	tex /setcounter{tocdepth}{4}
+	tex /usepackage{setspace}
+	tex /usepackage{amssymb,amsmath,amsthm,mathrsfs,verbatim}
 	tex 
-	tex \usepackage[margin=.8cm]{geometry}
-	tex \singlespacing
-	tex \usepackage{multicol}
-	tex \usepackage{xcolor}
-	tex \usepackage{newverbs}
-	tex \usepackage{pdfpages} %merge pdf with: \includepdfmerge{heine-borel_proof.pdf,-}
+	tex /usepackage[margin=.8cm]{geometry}
+	tex /singlespacing
+	tex /usepackage{multicol}
+	tex /usepackage{xcolor}
+	tex /usepackage{newverbs}
+	tex /usepackage{pdfpages} %merge pdf with: /includepdfmerge{heine-borel_proof.pdf,-}
 	tex 
-	tex \usepackage{graphicx, hyperref}
-	tex \setcounter{secnumdepth}{6}
+	tex /usepackage{graphicx, hyperref}
+	tex /setcounter{secnumdepth}{6}
 	tex 
-	tex \newverbcommand{\bverb}
-	tex {\begin{lrbox}{\verbbox}}
-	tex {\end{lrbox}\colorbox{yellow!30}{\box\verbbox}}
-	tex \newverbcommand{\yverb}
-	tex {\begin{lrbox}{\verbbox}}
-	tex {\end{lrbox}\colorbox{yellow!30}{\box\verbbox}}
-	tex \newverbcommand{\gverb}
-	tex {\begin{lrbox}{\verbbox}}
-	tex {\end{lrbox}\colorbox{green!30}{\box\verbbox}}
-	tex \newverbcommand{\rverb}
-	tex {\begin{lrbox}{\verbbox}}
-	tex {\end{lrbox}\colorbox{red!30}{\box\verbbox}}
+	tex /newverbcommand{/bverb}
+	tex {/begin{lrbox}{/verbbox}}
+	tex {/end{lrbox}/colorbox{yellow!30}{/box/verbbox}}
+	tex /newverbcommand{/yverb}
+	tex {/begin{lrbox}{/verbbox}}
+	tex {/end{lrbox}/colorbox{yellow!30}{/box/verbbox}}
+	tex /newverbcommand{/gverb}
+	tex {/begin{lrbox}{/verbbox}}
+	tex {/end{lrbox}/colorbox{green!30}{/box/verbbox}}
+	tex /newverbcommand{/rverb}
+	tex {/begin{lrbox}{/verbbox}}
+	tex {/end{lrbox}/colorbox{red!30}{/box/verbbox}}
 	tex 
-	tex \newverbcommand{\grayverb}
-	tex {\begin{lrbox}{\verbbox}}
-	tex {\end{lrbox}\colorbox{gray!30}{\box\verbbox}}
-	tex \usepackage{epstopdf}
-	tex \usepackage{longtable}
-	tex                                 %\usepackage{rotating}, then through environment: sidewaystable
-	tex                                 %\usepackage{pdflscape} % Followed by landscape
-	tex \usepackage{adjustbox}
+	tex /newverbcommand{/grayverb}
+	tex {/begin{lrbox}{/verbbox}}
+	tex {/end{lrbox}/colorbox{gray!30}{/box/verbbox}}
+	tex /usepackage{epstopdf}
+	tex /usepackage{longtable}
+	tex                                 %/usepackage{rotating}, then through environment: sidewaystable
+	tex                                 %/usepackage{pdflscape} % Followed by landscape
+	tex /usepackage{adjustbox}
 	tex 
-	tex \usepackage{mdframed}%needed for box like theorems.\newmdtheoremenv %In the box, the footnotes are more handy! ^.^
+	tex /usepackage{mdframed}%needed for box like theorems./newmdtheoremenv %In the box, the footnotes are more handy! ^.^
 	tex 
-	tex \newtheorem{theorem}{Theorem}[paragraph]
-	tex \newmdtheoremenv{remark}[theorem]{Remark}
-	tex \newmdtheoremenv{question}[theorem]{Question}
+	tex /newtheorem{theorem}{Theorem}[paragraph]
+	tex /newmdtheoremenv{remark}[theorem]{Remark}
+	tex /newmdtheoremenv{question}[theorem]{Question}
 	tex 
-	tex \usepackage{tikz}
-	tex \usetikzlibrary{shapes.geometric, arrows}
-	tex \tikzstyle{case} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
-	tex \tikzstyle{section} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=orange!30] 
-	tex \tikzstyle{arrow} = [thick,->,>=stealth]
+	tex /usepackage{tikz}
+	tex /usetikzlibrary{shapes.geometric, arrows}
+	tex /tikzstyle{case} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+	tex /tikzstyle{section} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=orange!30] 
+	tex /tikzstyle{arrow} = [thick,->,>=stealth]
 	tex 
 	tex 
-	tex \let\origthebibliography\thebibliography
-	tex \let\origendthebibliography\endthebibliography
-	tex \newif\ifemptybibliography
-	tex \renewenvironment{thebibliography}[1]
-	tex {\if\relax\detokenize{#1}\relax\emptybibliographytrue\else\origthebibliography{#1}\fi}
-	tex {\ifemptybibliography\else\origendthebibliography\fi}
+	tex /let/origthebibliography/thebibliography
+	tex /let/origendthebibliography/endthebibliography
+	tex /newif/ifemptybibliography
+	tex /renewenvironment{thebibliography}[1]
+	tex {/if/relax/detokenize{#1}/relax/emptybibliographytrue/else/origthebibliography{#1}/fi}
+	tex {/ifemptybibliography/else/origendthebibliography/fi}
 	tex 
-	tex \usepackage{stata}
-	tex \usepackage{subcaption}
-	tex \usepackage{graphicx}
-	tex \usepackage{caption}
-	tex \usepackage{pdflscape}
+	tex /usepackage{stata}
+	tex /usepackage{subcaption}
+	tex /usepackage{graphicx}
+	tex /usepackage{caption}
+	tex /usepackage{pdflscape}
 	tex 
-	tex \newcommand{\xia}{\underline{ }\underline{ }}
-	tex \usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % For displaying matlab code in latex.
-	tex \title{${1:Report-Name}}
-	tex \author{Linfeng Li}
-	tex \begin{document}
-	tex \maketitle
-	tex \tableofcontents
-	tex \section{${2:First-Section}}
-	tex \end{document}
+	tex /newcommand{/xia}{/underline{ }/underline{ }}
+	tex /usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % For displaying matlab code in latex.
+	tex /title{${1:Report-Name}}
+	tex /author{Linfeng Li}
+	tex /begin{document}
+	tex /maketitle
+	tex /tableofcontents
+	tex /section{${2:First-Section}}
+	tex /end{document}
 	texdoc close
 	
 	
@@ -285,13 +309,10 @@ snippet gen_string_date
 
 # use dataset
 snippet use
-	use \$dta/${1:filename}, replace
+	use $dta/${1:filename}, clear
 
 snippet use_raw
-	use \$dta_raw/${1:filename}-cln.dta, replace
-
-snippet using
-	using \$dta/${1:filename}.dta
+	use $dta_raw/${1:filename}-cln.dta, clear
 
 #Labeling variables
 snippet label
@@ -319,24 +340,30 @@ snippet logouttab
 	restore
 # do a .do file (files names to be coppied from TC, ysing "y").
 snippet do
-	do \$do_dir/$1
+	do $do_dir/$1
 # global declaration
 snippet global
 	global ${1:g_name} "${2:content}"
 
-# duplicates drop
+# duplicates
+snippet dd
+	duplicates drop ${1:id}, force
 snippet dup_drop
 	duplicates drop ${1:id}, force
+snippet dr
+	duplicates report ${1:id}
+snippet dt
+	duplicates tag ${1:id}, gen(dup_id)
 # save dataset
 snippet save 
-	save \$dta/${1:filename}.dta, replace
-
-	
+	save $dta/${1:filename}.dta, replace
 # save tempfile
 snippet tempfile
 	tempfile ${1:TempFileName}
 	save \`$1', replace
-
+snippet TEMP
+	save D:\temp, replace
+	use D:\temp, clear
 # Preserve and restore
 snippet preserve
 	preserve
@@ -344,111 +371,108 @@ snippet preserve
 	restore
 # sjlog: for displaying 
 snippet sjlog
-	sjlog using \$sj_files/${1:filename}, replace
+	sjlog using /$sj_files/${1:filename}, replace
 	sjlog close, replace
-
-# \begin{}...\end{}
+# Constructing logs
+snippet log
+	log using $log/${1:log_name}, replace
+# /begin{}.../end{}
 snippet begin
-	\begin{${1:env}}
+	/begin{${1:env}}
 		${2}
-	\end{$1}
+	/end{$1}
 snippet ali
-	\begin{align${1:ed}}
+	/begin{align${1:ed}}
 		${2}
-	\end{align$1}
+	/end{align$1}
 # Gather(ed)
 snippet gat
-	\begin{gather${1:ed}}
+	/begin{gather${1:ed}}
 		${2}
-	\end{gather$1}
+	/end{gather$1}
 # Equation
 snippet eq
-	\begin{equation}
+	/begin{equation}
 		${1}
-	\end{equation}
+	/end{equation}
 # Unnumbered Equation
-snippet \
-	\\[
+snippet /
+	//[
 		${1}
-	\\]
-# Enumerate
-snippet enum
-	\begin{enumerate}
-		\item ${1}
-	\end{enumerate}
+	//]
 # Itemize
 snippet item
-	\begin{itemize}
-		\item ${1}
-	\end{itemize}
+	/begin{itemize}
+		/item ${1}
+	/end{itemize}
 # Description
 snippet desc
-	\begin{description}
-		\item[${1}] ${2}
-	\end{description}
+	/begin{description}
+		/item[${1}] ${2}
+	/end{description}
 # Matrix
 snippet mat
-	\begin{${1:p/b/v/V/B/small}matrix}
+	/begin{${1:p/b/v/V/B/small}matrix}
 		${2}
-	\end{$1matrix}
+	/end{$1matrix}
 # Cases
 snippet cas
-	\begin{cases}
-		${1:equation}, &\text{ if }${2:case}\\
+	/begin{cases}
+		${1:equation}, &/text{ if }${2:case}//
 		${3}
-	\end{cases}
+	/end{cases}
 # Split
 snippet s
 	split ${1:var_name}, p("${2:parsing}") g($1)
 # Part
 snippet part
-	\part{${1:part name}} % (fold)
-	\label{prt:${2:$1}}
+	/part{${1:part name}} % (fold)
+	/label{prt:${2:$1}}
 	${3}
 	% part $2 (end)
 # Chapter
 snippet cha
-	\chapter{${1:chapter name}} % (fold)
-	\label{cha:${2:$1}}
+	/chapter{${1:chapter name}} % (fold)
+	/label{cha:${2:$1}}
 	${3}
 	% chapter $2 (end)
 # Section
 snippet sec
-	\section{${1:section name}} 
+	/section{${1:section name}} 
 # Sub Section
 snippet sub
-	\subsection{${1:subsection name}}
+	/subsection{${1:subsection name}}
 # Sub Sub Section
 snippet subs
-	\subsubsection{${1:subsubsection name}}
+	/subsubsection{${1:subsubsection name}}
 # Paragraph
 snippet par
-	\paragraph{${1:paragraph name}}
+	/paragraph{${1:paragraph name}}
 # Sub Paragraph
 snippet subp
-	\subparagraph{${1:subparagraph name}}
+	/subparagraph{${1:subparagraph name}}
 snippet itd
-	\item[${1:description}] ${2:item}
+	/item[${1:description}] ${2:item}
 snippet figure
-	${1:Figure}~\ref{${2:fig:}}${3}
+	${1:Figure}~/ref{${2:fig:}}${3}
 snippet table
-	${1:Table}~\ref{${2:tab:}}${3}
+	${1:Table}~/ref{${2:tab:}}${3}
 snippet listing
-	${1:Listing}~\ref{${2:list}}${3}
+	${1:Listing}~/ref{${2:list}}${3}
 snippet section
-	${1:Section}~\ref{${2:sec:}}${3}
+	${1:Section}~/ref{${2:sec:}}${3}
 snippet page
-	${1:page}~\pageref{${2}}${3}
+	${1:page}~/pageref{${2}}${3}
 # More rich structures: 
 snippet tabular
-	\begin{table}[!htb]
-		\centering
-		\begin{tabular}{${1:Dimension of the table}}
+	/begin{table}[!htb]
+		/centering
+		/begin{tabular}{${1:Dimension of the table}}
 			${4:Conten of the table}
-		\end{tabular}
-		\caption{${3:table caption}}
-		\label{tab:${2:label}}
-	\end{table}
+		/end{tabular}
+		/caption{${3:table caption}}
+		/label{tab:${2:label}}
+	/end{table}
 
 # Shuffling: average measure.
 snippet simu_noisy
@@ -537,16 +561,16 @@ snippet bug
 
 # Importing stuff
 snippet importexcel 
-	import excel using ${1:filename}, first clear
+	import excel using ${1:filename}, first clear case(lower)
 snippet iexcel 
-	import excel using ${1:filename}, first clear
+	import excel using ${1:filename}, first clear case(lower)
 
 snippet importcsv
 	import delimited using ${1:filename}, delimit(",") clear
 
 # Export excel
 snippet exportexcel
-	export excel using ${1:filename}, first(var) replace
+	export excel using ${1:filename}, first(var) replace nol
 
 # Temp section
 snippet facility
@@ -572,13 +596,6 @@ snippet geocode
 	rename g_lat Latitude
 	rename g_lon Longitude
 
-# Playing lazy	
-snippet d
-	#delimit ;
-snippet t
-	tab ${1:varaible}, missing 
-	tab year $1, missing nolabel
-	tab year $1, missing nolabel
 snippet lb
 	labelbook ${1:}
 # Labeling
@@ -590,3 +607,177 @@ snippet	ld
 	label define ${1:value label name} ${2:num} "${3:LabelContent}", modify
 snippet ldir
 	label dir
+
+# General Covnerting
+snippet month
+	tostring ${1:month_var}, replace
+	replace $1 = "Jan" if $1 == "1"
+	replace $1 = "Feb" if $1 == "2"
+	replace $1 = "Mar" if $1 == "3"
+	replace $1 = "Apr" if $1 == "4"
+	replace $1 = "May" if $1 == "5"
+	replace $1 = "Jun" if $1 == "6"
+	replace $1 = "Jul" if $1 == "7"
+	replace $1 = "Aug" if $1 == "8"
+	replace $1 = "Sep" if $1 == "9"
+	replace $1 = "Oct" if $1 == "10"
+	replace $1 = "Nov" if $1 == "11"
+	replace $1 = "Dec" if $1 == "12"
+## Lazy me.
+snippet e
+	drop if enumerate == 
+## Temp
+snippet C
+	* Cleaning is valid.
+snippet c
+	Check_in_the_next_round
+snippet f
+	file close output_file
+snippet p
+	preserve
+	restore
+## Percetage calculation
+snippet pc
+	gen ${1:cat} = 0
+	replace $1 = 1 if ${2:cat_master} == "${3:cat_real}"
+	egen pc_$1 = mean($1)
+	replace pc_$1 = 100 * pc_$1
+# Playing lazy	
+snippet d
+	#delimit ;
+snippet cr
+	#delimit cr
+# NYSJT
+snippet manual
+	export excel using $manual/dup${1:num}, first(var) replace nol
+	import excel using $manual/dup$1_fix.xls, first clear case(lower)
+snippet pair
+	replace linked_cases = ${1:pair_num}
+	do $do_dir/destring.do
+	tempfile pair$1
+	save \`pair$1', replace
+snippet append
+	do $do_dir/destring.do
+	tempfile append${1:#num}
+	save \`append$1', replace
+snippet sum
+	replace summable = 1
+snippet 1
+	replace observation_quality = 1
+snippet 2
+	replace observation_quality = 2
+snippet 3
+	replace observation_quality = 3
+snippet fix
+	tostring miscinfo, replace
+	tostring misc2, replace
+snippet test
+	use $dta/5_NY_SJT_as_of_Feb_09.dta, clear
+	append using \`pair${1:#Num}'
+snippet ta
+	use $dta/5_NY_SJT_as_of_Feb_09.dta, clear
+	append using \`append${1:#Num}'
+snippet insurer
+	tostring insurer, replace
+snippet policylimit
+	tostring policylimit, replace
+snippet policylimit
+	tostring policylimit, replace
+snippet misc
+	tostring miscinfo, replace
+snippet misc2
+	tostring misc2, replace
+snippet m
+	* By majority rule, i.e. names are corrected to be the name that has most observations.
+snippet mc
+	* By majority rule + completeness in name. (More obs is preferred, and name with middle name is preferred)
+snippet recode
+	recode ${1:var} (-9 = .) (-8 = .d) (-7 = .b) 
+	label values $1 recode_missing
+snippet tab
+	tab ${1:var} year, missing col
+
+# For SOC Coding.
+## 53: transportation
+### Drivers
+snippet food
+	533031
+snippet route
+	533031
+snippet drive_sales
+	533031
+snippet small
+	533033
+snippet big
+	533032
+snippet driver_other
+	533099
+snippet bus
+	533021
+snippet taxi
+	533041
+snippet school
+	533022
+# Labor workers
+snippet load
+	537121
+snippet fork
+	537121
+snippet warehouse
+	435081
+snippet tow
+	533099
+snippet pilot
+	532012
+snippet dispatcher
+	435032
+snippet logistic
+	152031
+snippet shipement
+	435011
+snippet flightattendant
+	532031
+snippet hand
+	537062
+snippet i
+	* Interesting!
+snippet courier
+	435021
+snippet ship
+	435071
+snippet t_mpeople
+	531021
+snippet t_mother
+	531031
+snippet U
+	Driver with unspecified duty and size of vehicle.
+snippet size
+	Driver did not specify the size of vehicle.
+snippet balance
+	532099	
+snippet package
+	435021
+# Packers and Packagers, Hand: Pack or package by hand a wide variety of products and materials.
+snippet pack&unpack
+	537063
+#
+
+# 53 related, but outside the realm
+# Travel agents.
+snippet travel
+	413041
+# Car Repair: automotive service technicians and mechanics
+snippet carrepair
+	493023
+# Truck repair: + bus
+snippet truckrepair
+	493031
+#
+
+snippet human
+	export excel using $manual/human_error${1:num}, first(var) replace nol
+	import excel using $manual/human_error$1_fix.xls, first clear case(lower)
+snippet vlc
+	gen ${1:var} = .z
+	label define $1 .z "Such variable does not exist in this year."
+	label values $1 $1
