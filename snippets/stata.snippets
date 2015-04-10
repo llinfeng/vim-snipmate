@@ -668,15 +668,6 @@ snippet 2
 	replace observation_quality = 2
 snippet 3
 	replace observation_quality = 3
-snippet fix
-	tostring miscinfo, replace
-	tostring misc2, replace
-snippet test
-	use $dta/5_NY_SJT_as_of_Feb_09.dta, clear
-	append using \`pair${1:#Num}'
-snippet ta
-	use $dta/5_NY_SJT_as_of_Feb_09.dta, clear
-	append using \`append${1:#Num}'
 snippet insurer
 	tostring insurer, replace
 snippet policylimit
@@ -698,9 +689,228 @@ snippet tab
 	tab ${1:var} year, missing col
 
 # For SOC Coding.
+# 11
+snippet purchasing_manager
+	113061
+snippet human_resource
+	113121
+#
+
+# 17
+snippet engineer_misc
+	172199
+snippet quality_engineer
+	172112
+#
+
+# 15
+snippet computer_misc
+	151199
+snippet computer_network
+	151152
+# 27
+snippet designer_misc
+	271029
+# 
+	
+# 33: Protective services
+snippet security
+	339032
+snippet guard
+	339032
+#
+
+# 35
+snippet wine
+	352021
+#
+
+# 37
+snippet clean_janitor
+	372011
+snippet hua
+	373011
+#
+
+# 41: sales
+snippet sales_other
+	413099
+#
+
+# 43
+snippet mailing_machine
+	439051
+snippet customer_service
+	434051
+#
+
+
+# 45: farm and agriculture.
+
+
+
+# 45: farming
+snippet farm_manager
+	451011
+snippet sorter_grader
+	452041
+#
+
+# Electronic
+snippet elec_technician
+	173023
+snippet elec_drafter
+	173012
+snippet elec_install_repair 
+	472111
+snippet aerospace_engineer
+	172011
+snippet aerospace_technician
+	173021
+snippet 47_master
+	472011
+snippet plumber
+	472152
+# 
+
+# 49: technicians
+snippet 49_boss
+	491011
+snippet tire
+	493093
+snippet fix_repair_misc
+	499099
+snippet truck_repair_engine
+	493031
+snippet air_repair
+	493011
+snippet tire_repair
+	493093
+snippet auto_repair
+	493023
+snippet auto_engine
+	493031
+snippet auto_glass_repair
+	493022
+snippet auto_body_repair
+	493021
+snippet auto_accessory
+	536031
+snippet home_repair
+	499031
+snippet computer_repair
+	492011
+snippet welder_general_repair
+	499071
+snippet repair_general
+	499099
+snippet avionics_tech
+	492091
+snippet security_repair
+	492098
+snippet general_repair
+	499071
+snippet general_maintain
+	499099
+snippet ac
+	499021
+
+    
+#
+
+# 51: production / manufacturing 
+snippet tester
+	519061
+snippet inspect
+	519061
+snippet 51_manager
+	511011
+snippet production_manager
+	511011
+snippet team
+	512092
+snippet multiple_machine
+	514081
+snippet cut_metal
+	519032
+snippet assembler_misc
+	512099
+snippet operator_misc_machine
+	514199
+snippet glasses_lab
+	519083
+snippet printing_press_operator
+	515112
+snippet operator_misc_plant
+	518099
+# Computer controlled production
+snippet production_computer
+	514011
+snippet cnc_operator
+	514011
+snippet cnc_programmer
+	514012
+snippet lathe
+	514034
+snippet packing_machine
+	519111
+snippet metal_misc
+	514199
+snippet production_others
+	519199
+snippet sewing_machine
+	516031
+snippet sewing_hand
+	516051
+snippet engine_assemble
+	512031
+# General press machines: applied on metal / plastics
+snippet press_general/matal
+	514031
+snippet press_printing
+	515112
+snippet mold_core
+	514071
+snippet textile_cut
+	516062
+snippet metal_cut
+	514031
+snippet cut_metal
+	514031
+snippet food_processer_misc
+	513099
+snippet mold_machine
+	514072
+snippet mill_operator
+	514035
+snippet furnace
+	514051
+# Chemical
+snippet chemi_engineer
+	172041
+snippet chemi_plant
+	518091
+snippet chemi_operator
+	519011
+snippet mixing_liquid_production
+	519023
+snippet refine_metal
+	514051
+snippet wood_misc
+	517099
+snippet trimmer
+	513022
+snippet steel_metal_worker
+	472211
+snippet helper_production
+	519198
+snippet caster
+	514052
+#
+
 ## 53: transportation
 ### Drivers
-snippet food
+snippet food_delivary
 	533031
 snippet route
 	533031
@@ -712,6 +922,8 @@ snippet big
 	533032
 snippet driver_other
 	533099
+snippet tractor
+	533032
 snippet bus
 	533021
 snippet taxi
@@ -723,8 +935,14 @@ snippet load
 	537121
 snippet fork
 	537121
+#
 snippet warehouse
 	435081
+snippet stock
+	435081
+snippet filler
+	435081
+#
 snippet tow
 	533099
 snippet pilot
@@ -733,8 +951,6 @@ snippet dispatcher
 	435032
 snippet logistic
 	152031
-snippet shipement
-	435011
 snippet flightattendant
 	532031
 snippet hand
@@ -743,14 +959,26 @@ snippet i
 	* Interesting!
 snippet courier
 	435021
-snippet ship
+snippet shipping
+	435071
+snippet receive
 	435071
 snippet t_mpeople
 	531021
 snippet t_mother
 	531031
-snippet U
-	Driver with unspecified duty and size of vehicle.
+snippet cargo
+	435011
+snippet shiping_management
+	435011
+snippet silicon
+	519141
+snippet semiconductor
+	519141
+snippet grinder
+	519021
+snippet un
+	Unclear description.
 snippet size
 	Driver did not specify the size of vehicle.
 snippet balance
@@ -759,8 +987,18 @@ snippet package
 	435021
 # Packers and Packagers, Hand: Pack or package by hand a wide variety of products and materials.
 snippet pack&unpack
-	537063
+	537064
+snippet pack_machine
+	519111
+snippet t_ticket
+	434181
+snippet welder
+	514121
+snippet waste_water
+	518031
 #
+
+
 
 # 53 related, but outside the realm
 # Travel agents.
@@ -772,11 +1010,11 @@ snippet carrepair
 # Truck repair: + bus
 snippet truckrepair
 	493031
+# Commenting Part.
+snippet human
+	Manager for non-human factors.
 #
 
-snippet human
-	export excel using $manual/human_error${1:num}, first(var) replace nol
-	import excel using $manual/human_error$1_fix.xls, first clear case(lower)
 snippet vlc
 	gen ${1:var} = .z
 	label define $1 .z "Such variable does not exist in this year."
