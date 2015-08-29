@@ -1,3 +1,128 @@
+# preference
+snippet prefer
+	$\succcurlyeq$
+snippet strictpreference
+	$\succ$
+# Environments 
+snippet theorem
+	\begin{theorem}
+		${1:}
+	\end{theorem}
+snippet acknowledgement
+	\begin{acknowledgement}
+		${1:}
+	\end{acknowledgement}
+snippet algorithm
+	\begin{algorithm}
+		${1:}
+	\end{algorithm}
+snippet cases
+	\begin{cases}
+		${1:equation}, &\\text{ if }${2:case}\\
+		${3}
+	\end{cases}
+snippet claim
+	\begin{claim}
+		${1:}
+	\end{claim}
+snippet claimbox
+	\begin{claimbox}
+		${1:}
+	\end{claimbox}
+snippet conclusion
+	\begin{conclusion}
+		${1:}
+	\end{conclusion}
+snippet condition
+	\begin{condition}
+		${1:}
+	\end{condition}
+snippet conjecture
+	\begin{conjecture}
+		${1:}
+	\end{conjecture}
+snippet corollary
+	\begin{corollary}
+		${1:}
+	\end{corollary}
+snippet criterion
+	\begin{criterion}
+		${1:}
+	\end{criterion}
+snippet definition
+	\begin{definition}
+		${1:}
+	\end{definition}
+snippet def
+	\begin{definition}
+		${1:}
+	\end{definition}
+snippet example
+	\begin{example}
+		${1:}
+	\end{example}
+snippet exercise
+	\begin{exercise}
+		${1:}
+	\end{exercise}
+snippet fact
+	\begin{fact}
+		${1:}
+	\end{fact}
+snippet idea
+	\begin{idea}
+		${1:}
+	\end{idea}
+snippet lemma
+	\begin{lemma}
+		${1:}
+	\end{lemma}
+snippet notation
+	\begin{notation}
+		${1:}
+	\end{notation}
+snippet proposition
+	\begin{proposition}
+		${1:}
+	\end{proposition}
+snippet question
+	\begin{question}
+		${1:}
+	\end{question}
+snippet remark
+	\begin{remark}
+		${1:}
+	\end{remark}
+snippet remark_box
+	\begin{remark_box}
+		${1:}
+	\end{remark_box}
+snippet solution
+	\begin{solution}
+		${1:}
+	\end{solution}
+snippet summary
+	\begin{summary}
+		${1:}
+	\end{summary}
+snippet question_sqrt
+	\begin{question_sqrt}
+		${1:}
+	\end{question_sqrt}
+snippet typo
+	\begin{typo}
+		${1:}
+	\end{typo}
+snippet assumption
+	\begin{assumption}
+		${1:}
+	\end{assumption}
+snippet quote
+	\begin{quote}
+		${1:}
+	\end{quote}
+# The end.
+
 # New
 snippet new
 	\newpage
@@ -12,7 +137,7 @@ snippet ve
 	\verb|${1:var_name}| 
 snippet verbatim
 	\begin{verbatim} 
-	$1
+				${1:}
 	\end{verbatim}
 snippet underline
 	\underline{${1:content}}
@@ -138,7 +263,7 @@ snippet mat
 # Cases
 snippet cas
 	\begin{cases}
-		${1:equation}, &\text{ if }${2:case}\\
+		${1:equation}, &\\text{ if }${2:case}\\
 		${3}
 	\end{cases}
 # Split
@@ -192,6 +317,11 @@ snippet itd
 	\item[${1:description}] ${2:item}
 snippet figure
 	${1:Figure}~\ref{${2:fig:}}${3}
+# Proof
+snippet proof
+	\begin{proof}
+		${1}
+	\end{proof}
 snippet table
 	\begin{table}[!htb]
 		\centering
@@ -219,6 +349,9 @@ snippet pagenumber
 	\usepackage{fancyhdr}
 	\pagestyle{fancy}
 	\cfoot{\thepage}
+snippet newcommand
+	\newcommand{\\${1:command}}{${2:content}}
+#
 
 # Mapps and url: 
 snippet u
@@ -246,6 +379,19 @@ snippet a
 snippet bib
 	\bibliographystyle{plain}
 	\bibliography{${1:bib_file}}
-
 snippet pdf
 	\includepdf[pages=-]{${1:filename}}
+#
+snippet renew_theorem
+	\setcounter{theorem}{0}
+#
+
+# Mathe notations
+snippet :=
+	\coloneqq
+snippet limeq
+	\underset{x\to x_0} \lim f(x)
+snippet limeq_right
+	\underset{x\to x_0} \lim f(x)
+snippet reset
+	\setcounter{theorem}{0}
