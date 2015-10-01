@@ -103,7 +103,7 @@ snippet mkdir
 	mkdir $Root/Reference
 	mkdir $origin
 
-# Avoid the fucking typos!	
+# Avoid the fucking typos!
 snippet Dfdn
 	/$Dfdn_traits
 
@@ -115,17 +115,17 @@ snippet forglobal
 
 # posting data to external files
 snippet post
-	postfile ${1:post_name} 
-	${2:column-title, the table in mind} 
+	postfile ${1:post_name}
+	${2:column-title, the table in mind}
 	using /$${3:dir}, replace
 	postclose $1
 # Regression over defendant traits
 snippet RegFree
 	do $do_dir/00_Dfdn_traits_global.do
-	eststo: qui areg ${1:LHS} /$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable}) 
+	eststo: qui areg ${1:LHS} /$${2:Dfdn_traits}, absorb(${3:FE}) cluster(${4:clustering_variable})
 	foreach j of varlist /$$2 {
 		disp "\`j'"
-		eststo: qui  areg $1  \`j', absorb($3) cluster($4) 
+		eststo: qui  areg $1  \`j', absorb($3) cluster($4)
 	}
 	esttab using /$Tex/${5:FileName}.tex, replace se
 	eststo clear
@@ -139,10 +139,10 @@ snippet RegfJudge
 	}
 	esttab using /$Tex/${1:name}_full.tex, replace se drop(_I*)
 	eststo clear
-	
+
 snippet RegiJudge
 	do $do_dir/00_Dfdn_traits_global.do
-	eststo: qui xi: areg JudgeHarsh $Dfdn_traits_important i.case_class, absorb(allotment_date) cluster(${2:judge_code}) 
+	eststo: qui xi: areg JudgeHarsh $Dfdn_traits_important i.case_class, absorb(allotment_date) cluster(${2:judge_code})
 	foreach j of varlist $Dfdn_traits_important {
 		disp "\`j'"
 		eststo: qui xi: areg JudgeHarsh \`j' i.case_class, absorb(allotment_date) cluster($2)
@@ -178,7 +178,7 @@ snippet debug
 	set tracesep 	on
 	set traceindent 	on
 	set tracenumber 	off
-	set tracehilite 	"" 
+	set tracehilite 	""
 
 snippet testing
 	set matsize 11000
@@ -187,12 +187,12 @@ snippet testing
 	set tracesep 	on
 	set traceindent 	on
 	set tracenumber 	off
-	set tracehilite 	"" 
-	
+	set tracehilite 	""
+
 snippet cap
 	capture drop ${1:var_name}
 
-# texdoc 
+# texdoc
 snippet texlog
 	texdoc stlog
 	${1}
@@ -215,17 +215,17 @@ snippet texnew
 	tex /setcounter{tocdepth}{4}
 	tex /usepackage{setspace}
 	tex /usepackage{amssymb,amsmath,amsthm,mathrsfs,verbatim}
-	tex 
+	tex
 	tex /usepackage[margin=.8cm]{geometry}
 	tex /singlespacing
 	tex /usepackage{multicol}
 	tex /usepackage{xcolor}
 	tex /usepackage{newverbs}
 	tex /usepackage{pdfpages} %merge pdf with: /includepdfmerge{heine-borel_proof.pdf,-}
-	tex 
+	tex
 	tex /usepackage{graphicx, hyperref}
 	tex /setcounter{secnumdepth}{6}
-	tex 
+	tex
 	tex /newverbcommand{/bverb}
 	tex {/begin{lrbox}{/verbbox}}
 	tex {/end{lrbox}/colorbox{yellow!30}{/box/verbbox}}
@@ -238,7 +238,7 @@ snippet texnew
 	tex /newverbcommand{/rverb}
 	tex {/begin{lrbox}{/verbbox}}
 	tex {/end{lrbox}/colorbox{red!30}{/box/verbbox}}
-	tex 
+	tex
 	tex /newverbcommand{/grayverb}
 	tex {/begin{lrbox}{/verbbox}}
 	tex {/end{lrbox}/colorbox{gray!30}{/box/verbbox}}
@@ -247,33 +247,33 @@ snippet texnew
 	tex                                 %/usepackage{rotating}, then through environment: sidewaystable
 	tex                                 %/usepackage{pdflscape} % Followed by landscape
 	tex /usepackage{adjustbox}
-	tex 
+	tex
 	tex /usepackage{mdframed}%needed for box like theorems./newmdtheoremenv %In the box, the footnotes are more handy! ^.^
-	tex 
+	tex
 	tex /newtheorem{theorem}{Theorem}[paragraph]
 	tex /newmdtheoremenv{remark}[theorem]{Remark}
 	tex /newmdtheoremenv{question}[theorem]{Question}
-	tex 
+	tex
 	tex /usepackage{tikz}
 	tex /usetikzlibrary{shapes.geometric, arrows}
 	tex /tikzstyle{case} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
-	tex /tikzstyle{section} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=orange!30] 
+	tex /tikzstyle{section} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=orange!30]
 	tex /tikzstyle{arrow} = [thick,->,>=stealth]
-	tex 
-	tex 
+	tex
+	tex
 	tex /let/origthebibliography/thebibliography
 	tex /let/origendthebibliography/endthebibliography
 	tex /newif/ifemptybibliography
 	tex /renewenvironment{thebibliography}[1]
 	tex {/if/relax/detokenize{#1}/relax/emptybibliographytrue/else/origthebibliography{#1}/fi}
 	tex {/ifemptybibliography/else/origendthebibliography/fi}
-	tex 
+	tex
 	tex /usepackage{stata}
 	tex /usepackage{subcaption}
 	tex /usepackage{graphicx}
 	tex /usepackage{caption}
 	tex /usepackage{pdflscape}
-	tex 
+	tex
 	tex /newcommand{/xia}{/underline{ }/underline{ }}
 	tex /usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % For displaying matlab code in latex.
 	tex /title{${1:Report-Name}}
@@ -284,8 +284,8 @@ snippet texnew
 	tex /section{${2:First-Section}}
 	tex /end{document}
 	texdoc close
-	
-	
+
+
 
 
 # texsave, for printing spreadsheets to tex tables.
@@ -293,7 +293,7 @@ snippet texsave
 	texsave _all using "${1:table_name}", title("${2:caption/title}") footnote("${3:note that}") replace frag
 
 # create dummy
-snippet dummy 
+snippet dummy
 	gen ${1:DummyName} = 0
 	replace $1 = 1 if ${2:CategoricalVarible} == "${3:choice_of_1_group}"
 
@@ -325,7 +325,7 @@ snippet yes
 snippet tabtwoway
 	tab ${1:var1} ${2:var2}, matcell(${3:filename})
 		matrix rownames $3 = 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
-		matrix colnames $3 = 
+		matrix colnames $3 =
 	putexcel A1=matrix($3, names) using $3, replace
 
 snippet logouttab
@@ -335,7 +335,7 @@ snippet logouttab
 	logout, save(freq_$1) clear excel replace
 	restore
 	preserve
-	logout, clear: tab $2 $1, nofreq row 
+	logout, clear: tab $2 $1, nofreq row
 	logout, save(percentage_$1) clear excel replace
 	restore
 # do a .do file (files names to be coppied from TC, ysing "y").
@@ -355,7 +355,7 @@ snippet dr
 snippet dt
 	duplicates tag ${1:id}, gen(dup_id)
 # save dataset
-snippet save 
+snippet save
 	save $dta/${1:filename}.dta, replace
 # save tempfile
 snippet tempfile
@@ -369,7 +369,7 @@ snippet preserve
 	preserve
 	${1}
 	restore
-# sjlog: for displaying 
+# sjlog: for displaying
 snippet sjlog
 	sjlog using /$sj_files/${1:filename}, replace
 	sjlog close, replace
@@ -438,7 +438,7 @@ snippet cha
 	% chapter $2 (end)
 # Section
 snippet sec
-	/section{${1:section name}} 
+	/section{${1:section name}}
 # Sub Section
 snippet sub
 	/subsection{${1:subsection name}}
@@ -463,7 +463,7 @@ snippet section
 	${1:Section}~/ref{${2:sec:}}${3}
 snippet page
 	${1:page}~/pageref{${2}}${3}
-# More rich structures: 
+# More rich structures:
 snippet tabular
 	/begin{table}[!htb]
 		/centering
@@ -497,7 +497,7 @@ snippet simu_noisy
 
 			// Merge
 			use \`master_file', clear
-			sort allotment_date daily_id 
+			sort allotment_date daily_id
 			merge 1:1 allotment_date daily_id using \`new_list'
 
 			// The shuffling part ends.
@@ -534,7 +534,7 @@ snippet simu_formal
 
 			// Merge
 			use \`master_file', clear
-			sort allotment_date daily_id 
+			sort allotment_date daily_id
 			merge 1:1 allotment_date daily_id using \`new_list'
 
 			// The shuffling part ends.
@@ -549,7 +549,7 @@ snippet simu_formal
 	bysort judge_code: egen $1_mean_by_judge = mean($1)
 	egen $1_iqr_emperical = iqr($1_mean_by_judge)
 	post simulation_$1 (10000) ($1_iqr_emperical)
-	sort allotment_date daily_id 
+	sort allotment_date daily_id
 
 	postclose simulation_$1
 
@@ -560,9 +560,9 @@ snippet bug
 	post simulation_$1 (10000) ($1_iqr_emperical)
 
 # Importing stuff
-snippet importexcel 
+snippet importexcel
 	import excel using ${1:filename}, first clear case(lower)
-snippet iexcel 
+snippet iexcel
 	import excel using ${1:filename}, first clear case(lower)
 
 snippet importcsv
@@ -592,7 +592,7 @@ snippet geocode
 	egen full_address = concat(city state), punct(" ")
 	gen str100 address = subinstr(full_address," ","+",.)
 	compress
-	geocode3, address(addr) fulladdress quality zip state number street ad1 ad2 ad3 sub 
+	geocode3, address(addr) fulladdress quality zip state number street ad1 ad2 ad3 sub
 	rename g_lat Latitude
 	rename g_lon Longitude
 
@@ -625,7 +625,7 @@ snippet month
 	replace $1 = "Dec" if $1 == "12"
 ## Lazy me.
 snippet e
-	drop if enumerate == 
+	drop if enumerate ==
 ## Temp
 snippet C
 	* Cleaning is valid.
@@ -642,7 +642,7 @@ snippet pc
 	replace $1 = 1 if ${2:cat_master} == "${3:cat_real}"
 	egen pc_$1 = mean($1)
 	replace pc_$1 = 100 * pc_$1
-# Playing lazy	
+# Playing lazy
 snippet d
 	#delimit ;
 snippet cr
@@ -683,7 +683,7 @@ snippet m
 snippet mc
 	* By majority rule + completeness in name. (More obs is preferred, and name with middle name is preferred)
 snippet recode
-	recode ${1:var} (-9 = .) (-8 = .d) (-7 = .b) 
+	recode ${1:var} (-9 = .) (-8 = .d) (-7 = .b)
 	label values $1 recode_missing
 snippet tab
 	tab ${1:var} year, missing col
@@ -773,7 +773,7 @@ snippet training_specialist
 	131151
 snippet training_manager
 	113131
-# 
+#
 
 # 17
 snippet engineer_misc
@@ -828,7 +828,7 @@ snippet legal_misc
 
 # 25
 snippet ta
-	259041 
+	259041
 snippet librarian
 	254021
 snippet library_technician
@@ -876,7 +876,7 @@ snippet photograper
 	274021
 snippet entertainment_misc
 	272099
-# 
+#
 
 # 29
 snippet pharmacy_technician
@@ -885,7 +885,7 @@ snippet health_info_technician
 	292071
 #
 
-# 31 
+# 31
 snippet transcriptionist_medical
 	319094
 snippet transcript_typer
@@ -1115,7 +1115,7 @@ snippet farm_boss
 snippet sorter_grader
 	452041
 snippet farm_animal
-	452092 
+	452092
 snippet farm_crop
 	452093
 snippet farm_misc
@@ -1163,7 +1163,7 @@ snippet roofer
 	47181
 snippet fence
 	474031
-snippet elec_install_repair 
+snippet elec_install_repair
 	472111
 snippet elec_motor_repair
 	492092
@@ -1221,7 +1221,7 @@ snippet mine_other_mechines
 	475049
 snippet extraction_others
 	475099
-# 
+#
 
 # 49: technicians
 snippet 49_boss
@@ -1282,7 +1282,7 @@ snippet home_repair
 	499031
 #
 
-# 51: production / manufacturing 
+# 51: production / manufacturing
 snippet tester
 	519061
 snippet inspect
@@ -1458,7 +1458,7 @@ snippet U
 snippet size
 	Driver did not specify the size of vehicle.
 snippet balance
-	532099	
+	532099
 snippet package
 	435021
 # Packers and Packagers, Hand: Pack or package by hand a wide variety of products and materials.
@@ -1523,3 +1523,8 @@ snippet check_tab
 	tab occ_num
 snippet check_code
 	brow ind ind_detail occ_title occ_detail if occ_recode == ${1:code}
+#
+
+# Outreg: reporting a table
+snippet outreg
+	outreg using $root\\table_raw\\${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat(r2 \ N)

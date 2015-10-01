@@ -3,7 +3,7 @@ snippet prefer
 	$\succcurlyeq$
 snippet strictpreference
 	$\succ$
-# Environments 
+# Environments
 snippet theorem
 	\begin{theorem}
 		${1:}
@@ -85,6 +85,10 @@ snippet proposition
 	\begin{proposition}
 		${1:}
 	\end{proposition}
+snippet prop
+	\begin{proposition}
+		${1:}
+	\end{proposition}
 snippet question
 	\begin{question}
 		${1:}
@@ -134,9 +138,9 @@ snippet use
 	use \$dta/${1:filename}, replace
 # verb.; v.
 snippet ve
-	\verb|${1:var_name}| 
+	\verb|${1:var_name}|
 snippet verbatim
-	\begin{verbatim} 
+	\begin{verbatim}
 				${1:}
 	\end{verbatim}
 snippet underline
@@ -212,7 +216,7 @@ snippet mbox
 
 # tikz
 snippet dist
-	node distance=${1:}cm, 
+	node distance=${1:}cm,
 snippet width
 	text width = ${1:}cm,
 # Tabular
@@ -260,6 +264,10 @@ snippet mat
 	\begin{${1:p/b/v/V/B/small}matrix}
 		${2}
 	\end{$1matrix}
+snippet 3_by_3
+	${1:a_11} & \cdots & ${2:a_22} \\\\
+	\vdots & \ddots & \vdots \\\\
+	${3:a_n1} & \cdots & ${4:a_nn}
 # Cases
 snippet cas
 	\begin{cases}
@@ -322,6 +330,11 @@ snippet proof
 	\begin{proof}
 		${1}
 	\end{proof}
+# Matrix sturctures
+snippet bmatrix
+	\begin{bmatrix}
+		${1}
+	\end{bmatrix}<++>
 snippet table
 	\begin{table}[!htb]
 		\centering
@@ -332,7 +345,7 @@ snippet table
 		\label{tab:<+label+>}
 	\end{table}<++>
 
-# More rich structures: 
+# More rich structures:
 snippet tabular
 	\begin{table}[!htb]
 		\centering
@@ -344,7 +357,7 @@ snippet tabular
 	\end{table}
 
 
-# Preamble stuff: 
+# Preamble stuff:
 snippet pagenumber
 	\usepackage{fancyhdr}
 	\pagestyle{fancy}
@@ -353,10 +366,13 @@ snippet newcommand
 	\newcommand{\\${1:command}}{${2:content}}
 #
 
-# Mapps and url: 
+# Mapps and url:
 snippet u
 	\url{${1}}
-
+# Lazy me: and for defining functions
+snippet and
+	\quad \text{ and } \quad
+#
 # Newpage with newline
 snippet n
 	\newpage
@@ -385,8 +401,12 @@ snippet pdf
 snippet renew_theorem
 	\setcounter{theorem}{0}
 #
-
-# Mathe notations
+# Shorthands
+snippet WLOG
+	Without loss of generality
+snippet wlog
+	without loss of generality
+# Math notations
 snippet :=
 	\coloneqq
 snippet limeq
