@@ -1528,3 +1528,11 @@ snippet check_code
 # Outreg: reporting a table
 snippet outreg
 	outreg using $root\\table_raw\\${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat(r2 \ N)
+snippet o5
+	outreg using $root\\table_raw\\Table5_${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat( N \ r2 \ r2_o )
+snippet o6
+	outreg using $root\\table_raw\\Table6_${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat( N \ r2 \ r2_o )
+snippet o7
+	outreg using $root\\table_raw\\Table7_${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat( N \ r2 \ r2_o )
+snippet o8
+	outreg using $root\\table_raw\\Table8_${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat( N \ r2 \ r2_o )
