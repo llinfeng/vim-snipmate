@@ -338,6 +338,11 @@ snippet proof
 	\begin{proof}
 		${1}
 	\end{proof}
+# todo
+snippet todo
+	\begin{todo}
+		${1}
+	\end{todo}
 # Matrix sturctures
 snippet bmatrix
 	\begin{bmatrix}
@@ -423,3 +428,12 @@ snippet limeq_right
 	\underset{x\to x_0} \lim f(x)
 snippet reset
 	\setcounter{theorem}{0}
+#
+
+# Matlab Code citing in Latex
+snippet mfile
+	\lstinputlisting{${1:/path_to_mfile/my_mfile.m}}
+snippet mcode
+	\begin{lstlisting}
+	${1:code}
+	\end{lstlisting}
