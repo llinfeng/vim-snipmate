@@ -373,6 +373,15 @@ snippet tabular
 		\caption{${3:table caption}}
 		\label{tab:${2:label}}
 	\end{table}
+#
+
+#Function environment:
+snippet align
+	\\[
+		\aligned
+		${1:}
+		\endaligned
+	\\]
 
 
 # Preamble stuff:
@@ -442,3 +451,25 @@ snippet mcode
 	\begin{lstlisting}
 	${1:code}
 	\end{lstlisting}
+# Shortcuts for symbols
+snippet cdistribution
+	\\cdistribution
+snippet cprobability
+	\\cprobability
+snippet cd
+	\\cdistribution
+snippet cp
+	\\cprobability
+snippet ld
+	\\dot l_
+snippet l2d
+	\\ddot l_
+snippet sn
+	\\sum_{i=1}^{n}
+
+# Beamer packages:
+snippet slide
+	\begin{frame}
+	  \frametitle{${1:}}
+	    ${2:}
+	\end{frame}
