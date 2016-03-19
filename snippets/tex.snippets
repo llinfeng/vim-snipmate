@@ -1,9 +1,69 @@
+# Theorem-Shortcuts
+snippet FWL
+	Frisch-Waugh-Lovell
+# Term Shortcuts
+snippet homo
+	homoscedasticity
+snippet hetero
+	heteroscedasticity
 # preference
 snippet prefer
 	$\succcurlyeq$
 snippet strictpreference
 	$\succ$
+# Operator Shortcuts
+snippet sumi
+	\sum_{i=1}^n
+snippet }sumi
+	\sum_{i=1}^n
+snippet sumt
+	\sum_{t=1}^n
+snippet sum8
+	\sum_{i=1}^\infty
+snippet sum8i
+	\sum_{i=1}^\infty
+snippet sum8j
+	\sum_{j=1}^\infty
+snippet 1n
+	\frac{1}{n}
+snippet cp
+	\cprobability
+snippet cd
+	\cditribution
+snippet cred
+	\color{red}
+snippet cblack
+	\color{black}
+snippet xx
+	X_i X_i^T
+snippet xy
+	X_i Y_i
+snippet xu
+	X_i U_i
+snippet zx
+	Z_i X_i^T
+snippet zy
+	Z_i Y_i
+snippet pd
+	\textit{p.d.}
+snippet biv
+	\hat \beta_{n, IV}
+snippet b2
+	\hat \beta_{n, 2SLS}
+snippet ||
+	\left| ${1:} \right|
 # Environments
+snippet leq
+	\begin{multline*}
+		<+equation1+> \\
+		<+equation1Continued+>
+	\end{multline*}
+snippet mcodep
+	\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % For displaying matlab code in latex.
+snippet mcode
+	\begin{mcode}
+		${1:}
+	\end{mcode}
 snippet theorem
 	\begin{theorem}
 		${1:}
@@ -18,13 +78,15 @@ snippet algorithm
 	\end{algorithm}
 snippet cases
 	\begin{cases}
-		${1:equation}, &\\text{ if }${2:case}\\
+		${1:equation}, &\\text{ if }${2:case}\\\\
 		${3}
 	\end{cases}
 snippet claim
 	\begin{claim}
 		${1:}
 	\end{claim}
+snippet pmatrix
+	\begin{pmatrix} ${1:} \end{pmatrix}<++>
 snippet claimbox
 	\begin{claimbox}
 		${1:}
@@ -235,7 +297,7 @@ snippet tab
 # Align(ed)
 snippet ali
 	\aligned
-	$1
+	${1:}
 	\endaligned
 # Gather(ed)
 snippet gat
@@ -244,6 +306,10 @@ snippet gat
 	\end{gather$1}
 # Equation
 snippet eq
+	\begin{equation}
+		${1}
+	\end{equation}
+snippet eqn
 	\begin{equation}
 		${1}
 	\end{equation}
@@ -338,6 +404,11 @@ snippet proof
 	\begin{proof}
 		${1}
 	\end{proof}
+# center
+snippet center
+	\begin{center}
+		${1}
+	\end{center}
 # todo
 snippet todo
 	\begin{todo}
@@ -400,9 +471,13 @@ snippet u
 snippet and
 	\quad \text{ and } \quad
 #
-# Newpage with newline
+# n = inverse matrix (逆矩阵)
 snippet n
-	\newpage
+	^{-1}
+snippet N
+	^{-1}
+snippet 2
+	^2
 # TEMP
 snippet z
 	\subsubsection{JJ's comment}
@@ -412,8 +487,14 @@ snippet zz
 	\paragraph{JJ's comment}
 	$1
 	\paragraph{TODO}
-snippet multi
-	\multicolumn{${1:num_of_col}}{c}{${2:contents}}
+snippet multicolumns
+	\begin{multicols}{${1:num_of_col}}
+		${2:}
+	\end{multicols}
+snippet multiline
+	\begin{multline}
+		${1:}
+	\end{multline}
 snippet line
 	\noindent\rule{\textwidth}{1pt} % I am a line!
 snippet a
@@ -466,6 +547,40 @@ snippet l2d
 	\\ddot l_
 snippet sn
 	\\sum_{i=1}^{n}
+snippet NE
+	Nash Equilibrium
+snippet NEs
+	Nash Equilibria
+snippet es
+	$e^*$
+snippet hatq
+	\\hat \\theta_n
+snippet hatb
+	\\hat \\beta_n
+snippet hatb1
+	\\hat \\beta_{1,n}
+snippet hatb2
+	\\hat \\beta_{2,n}
+snippet tb
+	\\tilde \\beta_n
+snippet tb1
+	\\tilde \\beta_{1,n}
+snippet tb2
+	\\tilde \\beta_{2,n}
+snippet olsx
+	\left( X^T X \right)^{-1} X^T
+snippet olsx1
+	\left( X_1^T X_1 \right)^{-1} X_1^T
+snippet ub
+	\underbrace{
+snippet incomplete
+	\noindent\rule{\textwidth}{1pt} % I am a line!
+
+	\begin{center}
+		Incomplete
+	\end{center}
+
+	\noindent\rule{\textwidth}{1pt} % I am a line!
 
 # Beamer packages:
 snippet slide
@@ -473,3 +588,14 @@ snippet slide
 	  \frametitle{${1:}}
 	    ${2:}
 	\end{frame}
+snippet frame
+	\begin{frame}
+	  \frametitle{${1:}}
+	    ${2:}
+	\end{frame}
+# More structures
+snippet meeting
+	\section{${1:}}<++>
+	\subsection{What I did}<++>
+	\subsection{The feeback}<++>
+	\subsection{TODO: <++>}<++>
