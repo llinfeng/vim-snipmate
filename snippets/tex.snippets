@@ -9,12 +9,12 @@ snippet hetero
 # preference
 snippet prefer
 	$\succcurlyeq$
+snippet cite
+	\\cite{
 snippet strictpreference
 	$\succ$
 # Operator Shortcuts
 snippet sumi
-	\sum_{i=1}^n
-snippet }sumi
 	\sum_{i=1}^n
 snippet sumt
 	\sum_{t=1}^n
@@ -36,12 +36,22 @@ snippet cblack
 	\color{black}
 snippet xx
 	X_i X_i^T
-snippet xy
-	X_i Y_i
+snippet yx
+	(Y_i | X_i)
+snippet y1x
+	(Y_i = 1 | X_i)
 snippet xu
 	X_i U_i
+snippet xb
+	X_i^T \beta
 snippet zx
 	Z_i X_i^T
+snippet 6x
+	\frac{\partial}{\partial x}
+snippet q0
+	\\theta_0
+snippet qo
+	\\theta_0
 snippet zy
 	Z_i Y_i
 snippet pd
@@ -52,6 +62,8 @@ snippet b2
 	\hat \beta_{n, 2SLS}
 snippet ||
 	\left| ${1:} \right|
+snippet independent
+	\independent
 # Environments
 snippet leq
 	\begin{multline*}
@@ -571,6 +583,8 @@ snippet olsx
 	\left( X^T X \right)^{-1} X^T
 snippet olsx1
 	\left( X_1^T X_1 \right)^{-1} X_1^T
+snippet xbs
+	\frac{x^T\beta}{\sigma}
 snippet ub
 	\underbrace{
 snippet incomplete
@@ -581,6 +595,10 @@ snippet incomplete
 	\end{center}
 
 	\noindent\rule{\textwidth}{1pt} % I am a line!
+snippet hl
+	\\highlight{${1:}}
+snippet hi
+	\\highlight{${1:}}
 
 # Beamer packages:
 snippet slide
@@ -622,3 +640,37 @@ snippet block
 	\begin{block}{${1:}}
 	    ${2:}
 	\end{block}
+snippet p1
+	\frac{\partial U_1}{\partial e_1}
+snippet pq
+	\frac{\partial U_1}{\partial e_1}
+snippet p2
+	\frac{\partial U_2}{\partial e_2}
+snippet p3
+	\frac{\partial U_3}{\partial e_3}
+snippet p4
+	\frac{\partial U_4}{\partial e_4}
+snippet esum
+	e_1 + e_2 + e_3 + e_4
+snippet e12
+	e_1 + e_2
+snippet e123
+	e_1 + e_2 + e_3
+snippet e134
+	e_1 + e_3 + e_4
+snippet e13
+	e_1 + e_3
+snippet e14
+	e_1 + e_4
+snippet hypothesis
+	\begin{hypothesis}
+		${1}
+	\end{hypothesis}
+snippet subhypothesis
+	\begin{subhypothesis}
+		${1}
+	\end{subhypothesis}
+snippet 1
+	(1)
+snippet 0
+	(0)
