@@ -599,6 +599,19 @@ snippet hl
 	\\highlight{${1:}}
 snippet hi
 	\\highlight{${1:}}
+snippet hilight
+	\\highlight{${1:}}
+snippet highlight
+	\\highlight{${1:}}
+snippet HIGH
+	% Highlighting and coloring
+	\usepackage{color}
+	\usepackage{xcolor}
+	\newcommand{\hilight}[1]{\colorbox{yellow}{#1}}
+	\newcommand{\highlight}[1]{\colorbox{yellow}{#1}}
+	\definecolor{amber}{rgb}{1.0, 0.49, 0.0}
+	\newcommand{\amberlight}[1]{\colorbox{amber}{#1}}
+
 
 # Beamer packages:
 snippet slide
@@ -621,7 +634,9 @@ snippet meeting
 
 # First Year Paper:
 snippet p
+	%
 	\pause
+	%
 snippet g
 	\mathbf g
 snippet G
