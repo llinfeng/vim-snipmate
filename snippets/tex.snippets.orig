@@ -648,6 +648,7 @@ snippet block
 	\begin{block}{${1:}}
 	    ${2:}
 	\end{block}
+<<<<<<< HEAD
 snippet p1
 	\frac{\partial U_1}{\partial e_1}
 snippet pq
@@ -682,3 +683,10 @@ snippet 1
 	(1)
 snippet 0
 	(0)
+=======
+snippet intuition
+	\begin{intuition}
+        ${1:}
+	\end{intuition}
+
+>>>>>>> 16eacee1c02b197c809966bd8bcf8d4ffb49c750
