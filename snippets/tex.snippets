@@ -1,3 +1,8 @@
+# Rules for naming the snippets:
+# 1. Preamble itesm start with `pre_`
+# 2. All other functions goes between \begin{document} and \end{document}
+# Names shall capture the function well.
+
 # Theorem-Shortcuts
 snippet FWL
 	Frisch-Waugh-Lovell
@@ -697,3 +702,68 @@ snippet 1
 	(1)
 snippet 0
 	(0)
+snippet env_thm
+	\usepackage{mdframed}%needed for box like theorems.\newmdtheoremenv %In the box, the footnotes are more handy! ^.^
+	% Additional structures, enumerated through section number.
+	% Found as of 2015-06-30
+	% Fonts in the environments will be normal (standing straight up)
+	\theoremstyle{definition}
+	% Define all the theorem-based environments.
+	\newtheorem{theorem}{Theorem}[section]
+	\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+	\newtheorem{algorithm}[theorem]{Algorithm}
+	\newtheorem{case}[theorem]{Case}
+	\newtheorem{claim}{Claim}
+	\newtheorem{claimbox}[theorem]{Claim}
+	\newtheorem{conclusion}[theorem]{Conclusion}
+	\newtheorem{condition}[theorem]{Condition}
+	\newtheorem{conjecture}[theorem]{Conjecture}
+	\newtheorem{corollary}[theorem]{Corollary}
+	\newtheorem{criterion}[theorem]{Criterion}
+	\newtheorem{definition}[theorem]{Definition}
+	\newtheorem{example}[theorem]{Example}
+	\newtheorem{exercise}[theorem]{Exercise}
+	\newtheorem{fact}[theorem]{fact}
+	\newtheorem{idea}[theorem]{Idea}
+	\newtheorem{lemma}[theorem]{Lemma}
+	\newtheorem{notation}[theorem]{Notation}
+	\newtheorem{proposition}[theorem]{Proposition}
+	%\newtheorem{question}[theorem]{\textcolor[rgb]{1.00,0.00,0.00}{Question}}
+	\newtheorem{remark}{Remark}
+	\newtheorem{remark_section}[theorem]{Remark}
+	\newtheorem{remark_box}[theorem]{Remark}
+	\newtheorem{solution}[theorem]{Solution}
+	\newtheorem{summary}[theorem]{Summary}
+	\newmdtheoremenv{question_sqrt}{Question}
+	\newmdtheoremenv{typo}{Typo Correction}
+	\newtheorem{warning}[theorem]{Warning}
+	% Found as of 2015-06-30
+	% Fonts will resume to be italic in for the environments thereafter.
+	\usepackage{amsthm}
+	\theoremstyle{plain}
+	\newtheorem{assumption}[theorem]{Assumption}
+	\newtheorem*{defn}{Definition}
+	\newtheorem*{rudin}{Rudin Says}
+	\newtheorem*{question}{\textcolor[rgb]{1.00,0.00,0.00}{Questions}}
+snippet pre_multicol
+	\usepackage{multicol}
+snippet multicol
+	\begin{multicols}{3}
+	\end{multicols}
+snippet pre_margin
+	\usepackage[margin=${1:0.5}in]{geometry}
+snippet pre_ref
+	\usepackage{natbib}
+snippet bib
+	\bibliographystyle{plainnat}
+	\bibliography{bib}
+snippet pre_natbib
+	\usepackage{natbib}
+snippet pre_lib
+	\usepackage{natbib}
+snippet pre_comment
+	\usepackage{comment}
+snippet comment
+	\begin{comment}
+		${1:}
+	\end{comment}
