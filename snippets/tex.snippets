@@ -69,6 +69,9 @@ snippet ||
 	\left| ${1:} \right|
 snippet independent
 	\independent
+snippet pre_independent
+	\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+	\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
 # Environments
 snippet leq
 	\begin{multline*}
@@ -273,17 +276,17 @@ snippet graphwide
 	\begin{center}
 		\includegraphics[width=\textwidth]{<++>}
 	\end{center}
-snippet graph
+snippet graph_plain
 	\begin{center}
 		\includegraphics{<++>}
+	\end{center}
+snippet graph
+	\begin{center}
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{<++>}
 	\end{center}
 snippet graphscale
 	\begin{center}
 		\includegraphics[scale=${1:scalar}]{<++>}
-	\end{center}
-snippet s
-	\begin{center}
-		\includegraphics[scale=0.65]{<++>}
 	\end{center}
 
 # Handling graphics
@@ -767,3 +770,43 @@ snippet comment
 	\begin{comment}
 		${1:}
 	\end{comment}
+snippet jk
+	_{jk}
+snippet step
+	[<+->]
+snippet s
+	^*
+# Kfir game theory exam
+snippet -
+	\setminus
+snippet ~
+	\sim
+snippet huge
+	\Huge ${1:}\normalsize
+snippet th
+	\bar \theta
+snippet tl
+	\ubar \theta
+snippet vf
+	\breve{v}
+snippet vn
+	v^{\prime}
+snippet va
+	\tilde{v}
+snippet bf
+	\brebe{b}
+snippet bn
+	b^{\prime}
+snippet ba
+	\tilde{b}
+# Presentation for Fin 865
+snippet een
+	\begin{quote}
+		\begin{enumerate}${1:}
+			\item ${2:}
+		\end{enumerate}
+	\end{quote}
+snippet caveat
+	\begin{caveat}
+		${1:}
+	\end{caveat}

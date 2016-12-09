@@ -309,7 +309,8 @@ snippet gen_string_date
 
 # use dataset
 snippet use
-	use ${1:filename}, clear
+	use $dta\\${1:filename}, clear
+#
 
 
 #Labeling variables
@@ -1534,3 +1535,18 @@ snippet o7
 	outreg using $root\\table_raw\\Table7_${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat( N \ r2 \ r2_o )
 snippet o8
 	outreg using $root\\table_raw\\Table8_${1:name}, se bdec(2) varlabels replace starlevels(10 5 1) sigsymbols(+,*,**) summstat( N \ r2 \ r2_o )
+#
+# Headers for a project
+snippet alumni
+	clear all
+	capture eststo clear
+	capture log close
+	global Root "r:\UMSI_Alumni_Study"
+	global Root "r:\UMSI_Alumni_Study"
+	global Survey_Response \`"$Root\Survey_Response"'
+	global MailChimp \`"$Root\Survey_Response\MailChimp"'
+	global do_dir \`"$Root\Stata"'
+	global temp \`"$Root\temp"'
+	global dta \`"$Root\DATA"'
+	global data \`"$Root\DATA"'
+	cd $temp
