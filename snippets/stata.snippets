@@ -112,7 +112,10 @@ snippet forglobal
 	foreach ${1:element} in /$${2:set} {
 		${3:do something}
 	}
-
+snippet forlocal
+	foreach ${1:element} of local ${2:local_name} {
+		${3}
+	}
 # posting data to external files
 snippet post
 	postfile ${1:post_name}
@@ -309,7 +312,7 @@ snippet gen_string_date
 
 # use dataset
 snippet use
-	use $dta\\${1:filename}, clear
+	use $dta/${1:filename}, clear
 #
 
 
@@ -1542,7 +1545,6 @@ snippet alumni
 	capture eststo clear
 	capture log close
 	global Root "r:\UMSI_Alumni_Study"
-	global Root "r:\UMSI_Alumni_Study"
 	global Survey_Response \`"$Root\Survey_Response"'
 	global MailChimp \`"$Root\Survey_Response\MailChimp"'
 	global do_dir \`"$Root\Stata"'
@@ -1550,3 +1552,18 @@ snippet alumni
 	global dta \`"$Root\DATA"'
 	global data \`"$Root\DATA"'
 	cd $temp
+# SI 425 participantion cleaning
+snippet pw
+	rename answerquesetion answerquesetion_W${1:week_num}_Wed
+	rename askquestion askquestion_W$1_Wed 
+	rename nametag  nametag_W$1_Wed
+	tempfile W$1_Wed
+	save \`W$1_Wed', replace
+
+snippet pm
+	rename answerquesetion answerquesetion_W${1:week_num}_Mon
+	rename askquestion askquestion_W$1_Mon 
+	rename nametag  nametag_W$1_Mon
+	tempfile W$1_Mon
+	save \`W$1_Mon', replace
+
